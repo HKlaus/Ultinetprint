@@ -1,0 +1,1 @@
+<div id="logged_in">Hallo <b><?php echo email_check($mysqli); ?></b> du bist momentan <b><?php echo $logged ?></b>.</div>

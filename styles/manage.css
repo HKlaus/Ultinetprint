@@ -1,0 +1,45 @@
+.delete {
+	width: 150px;
+}
+.inline {
+	display: inline-block;	
+}
+.level {
+	width: 120px;
+	text-align: center;
+}
+.row {
+	float: left;
+    width: 100%;
+    margin: 10px;
+}
+#delete {
+	width: 150px;
+}
+#email {
+	min-width: 48%;
+	margin-left: 50px;
+}
+#file_name {
+	min-width: 45%;
+	margin-left: 50px;
+}
+#id {
+	width: 20px;
+}
+#level {
+	width: 120px;
+	text-align: center;
+}
+#print_time {
+	width: 100px;
+}
+#priority {
+	width: 70px;
+}
+#users {
+	padding-top: 20px;
+}
+#user {
+	width: 150px;
+}

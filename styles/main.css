@@ -1,0 +1,62 @@
+* {
+	color: white;
+	font-family: Arial;
+}
+body {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 50px;
+	background-color: #e9e9e9;
+	background-image: url("https://ultinetprint.informatik.hs-furtwangen.de/images/hfulogo1920_708.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: right bottom;
+}
+form {
+    padding: 20px;
+}
+input {
+    color: #03b670;
+	padding: 5px 10px;
+}
+option {
+    color: #000;
+}
+#navigation_bar a {
+    text-decoration: none;
+}
+.nav_item {
+    display: inline-block;
+	padding: 25px 30px;
+	background-color: #9b9999;
+	margin-right: 10px;
+}
+.nav_item:hover {
+    background-color: #a8a6a6;
+}
+#background {
+	background-color: #c8c8c8;
+	opacity: 0.95;
+}
+#input {
+	float: right;
+}
+#logged_in {
+    background-color: #03b670;
+    padding: 20px;
+}
+#logout {
+    padding: 20px;
+    background-color: #03b670;
+}
+#navigation_bar {
+	margin-bottom: 20px;
+	text-align: center;
+	background-color: #dedede;
+}
+#response {
+    text-align: center;
+    padding: 20px;
+    background-color: #9b9999;
+    margin-bottom: 20px;
+}
