@@ -11,19 +11,19 @@
 		$files = array_keys($files);		// Wieder eindimensionales Array
 		
 		foreach ($files as $file_name) {
-			echo "<option value='" . $file_name . "'>" . $file_name . "</option>";
+			echo "<option value='" . $file_name . "'>" . $file_name . "</option>";	//Ausgabe der druckbaren Datein
 		}
 	?>
 	</select>
 	
 	<p>Priorität: <output name="numerisch">niedrig</output><input type="range" name="priority" min="0" max="<?php 
-		if($admin == 'angemeldet') { echo '4'; } else { echo '2'; }
+		if($admin == 'angemeldet') { echo '4'; } else { echo '2'; }		// Falls Benutzer Betreuerrechte hat darf er höhere Prioritäten einstellen
 	?>" value="1"></p>
 	<p><input type="submit" value="Druckauftrag erteilen" /></p>
 </form>
 
-<script>
-function change_prio() {
+<script>		// Ändert den zum Range-Input gehörigen Ausgabe Text
+function change_prio() {		
 	if (form.priority.value == 0) { form.numerisch.value = "keine"; }
 	else if (form.priority.value == 1) { form.numerisch.value = "niedrig"; }
 	else if (form.priority.value == 2) { form.numerisch.value = "normal"; }

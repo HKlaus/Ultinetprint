@@ -8,26 +8,24 @@ function send_verify($email, $password) {
 	//Create a new PHPMailer instance
 	$mail = new PHPMailer;
 	//Set who the message is to be sent from
-	$mail->setFrom('from@example.com', 'First Last');
-	//Set an alternative reply-to address
-	$mail->addReplyTo('replyto@example.com', 'First Last');
+	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');
 	//Set who the message is to be sent to
-	$mail->addAddress($email, 'John Doe');
+	$mail->addAddress($email, '');
 	//Set the subject line
-	$mail->Subject = 'Signup | Verification';
+	$mail->Subject = 'Ultimaker Account Aktivierungslink';
 	//Read an HTML message body from an external file, convert referenced images to embedded,
 	//convert HTML into a basic plain-text alternative body
 	$mail->Body = '
 	 
-	Thanks for signing up!
-	Your account has been created, you can login with the following credentials after you have activated your account by pressing the url below.
+	Vielen Dank für die Regsitrierung!
+	Der Account wurde erstellt und kann nach dem Aktivieren mit folgender Email verwendet werden:
 	 
 	------------------------
-	Username: '.$email.'
+	Benutzername: '.$email.'
 	------------------------
 	 
-	Please click this link to activate your account:
-	http://www.yourwebsite.com/verify.php?email='.$email.'&hash='.$password.'
+	Bitte klicke auf diesen Link um den Account zu aktivieren:
+	https://ultinetprint.informatik.hs-furtwangen.de/verify.php?email='.$email.'&hash='.$password.'
 	 
 	';	// Our message above including the link
 	
@@ -35,6 +33,6 @@ function send_verify($email, $password) {
 	if (!$mail->send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
-		echo "Message sent!";
+		echo "Die Aktivierungs-Email wurde versendet!";
 	}
 }

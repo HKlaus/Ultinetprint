@@ -16,6 +16,8 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
 	} else {
 		echo "<div id='response'><h1>Es ist ein Problem aufgetreten.</h1><p>Entweder ist der Link inkorrekt oder der Account wurde bereits aktiviert.</p></div>";
 	}
+} else {
+	echo "<div id='response'><h1>Es ist ein Problem aufgetreten!</h1><p>Bitte nutzen Sie den Link aus der Aktivierungs-Email.</p></div>";
 }
 	
 ?>
