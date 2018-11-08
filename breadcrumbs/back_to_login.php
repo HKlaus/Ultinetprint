@@ -1,0 +1,1 @@
+<div id='back_to_login'>Zurück zum <a href="index.php">Login</a>.</div>

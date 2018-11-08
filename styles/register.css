@@ -1,0 +1,21 @@
+li {
+    padding: 5px;
+}
+
+#email {
+    width: 98%;
+	text-align: center;
+}
+#password {
+    width: 98%;
+	text-align: center;
+}
+#confirmpwd {
+    width: 98%;
+	text-align: center;
+}
+
+#register {
+    background-color: #c8c8c8;
+	padding: 50px 120px;
+}
