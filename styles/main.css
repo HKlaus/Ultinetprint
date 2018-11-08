@@ -36,7 +36,11 @@ option {
 }
 #background {
 	background-color: #c8c8c8;
-	opacity: 0.95;
+	opacity: 0.98;
+}
+#back_to_login {
+    padding: 20px;
+    background-color: #03b670;
 }
 #input {
 	float: right;

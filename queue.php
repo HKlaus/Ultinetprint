@@ -14,6 +14,9 @@ if (login_check($mysqli) > 0) {
 if (admin_check($mysqli) > 0) {
 	$admin = 'angemeldet';
 }
+if (active_check($mysqli) == 0) {		// Wenn Account noch nicht aktiviert ist, leite auf Fehler-Seite
+	header("Location: ../error.php?err=Account noch nicht aktiviert. Überprüfe dein E-Mail Postfach.");
+}
 ?>
 <!DOCTYPE html>
 <html>

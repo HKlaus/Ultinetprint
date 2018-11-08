@@ -49,8 +49,9 @@ if (isset($_POST['email'], $_POST['p'])) {
     }
  
     if (empty($error_msg)) {
+		$active = "0";	// Account standardmäßig deaktiviert bis Email Verifikation
 		$level = "0";	// Benutzer-Level standardmäßig auf 0
-		$active = "0";
+		$rights = "0";	// Benutzer-Rechte standardmäßig auf 0
 		
         // Erstelle ein zufälliges Salt
         $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE));
@@ -59,8 +60,8 @@ if (isset($_POST['email'], $_POST['p'])) {
         $password = hash('sha512', $password . $random_salt);
  
         // Trage den neuen Benutzer in die Datenbank ein 
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO users (email, password, salt, active, level) VALUES (?, ?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('sssss', $email, $password, $random_salt, $active, $level);
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO users (email, password, salt, active, level, rights) VALUES (?, ?, ?, ?, ?, ?)")) {
+            $insert_stmt->bind_param('ssssss', $email, $password, $random_salt, $active, $level, $rights);
             // Führe die vorbereitete Anfrage aus.
             if (! $insert_stmt->execute()) {
                 header('Location: ../error.php?err=Registrations Fehler: INSERT');

@@ -7,7 +7,7 @@ if(!empty($_POST['file_to_print'])) {
 		}
 		$priority = $_POST['priority'];		// mit Priorität drucken?
 	} else { 
-		$priority = 1;
+		$priority = 0;
 	}
 	$file_header = file_get_contents("uploads/gcode/" . $_POST['file_to_print'], FALSE, NULL, 0, 1000);		// Extrahiere die Druckdauer, lies dafür die ersten 1000 Zeichen ein
 	if (!empty($file_header)) {
@@ -16,7 +16,7 @@ if(!empty($_POST['file_to_print'])) {
 			$print_time = substr($print_time, 0, strpos($print_time, ";"));		// Beschneide den String auf die eigentliche Dauer
 	}
 	insert_print($mysqli, $_SESSION['user_id'], $_POST['file_to_print'], $priority, $print_time);
-	reorder_prints($mysqli);
+	//reorder_prints($mysqli);
 	//echo $file_header;
 	//echo $ulti->post_file($_POST['file_to_print']);
 }

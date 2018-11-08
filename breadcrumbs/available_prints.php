@@ -19,7 +19,7 @@
 	<p>Priorität: <output name="numerisch">niedrig</output><input type="range" name="priority" min="0" max="<?php 
 		if($admin == 'angemeldet') { echo '4'; } else { echo '2'; }
 	?>" value="1"></p>
-	<p><input type="submit" value="Drucken" /></p>
+	<p><input type="submit" value="Druckauftrag erteilen" /></p>
 </form>
 
 <script>

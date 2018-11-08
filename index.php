@@ -6,7 +6,9 @@ sec_session_start();
  
 if (login_check($mysqli) > 0) {
     $logged = 'angemeldet';
-	header('Location: ../printer.php');
+	if (active_check($mysqli) > 0) {		// Wenn Benutzer Account schon aktiviert hat, leite ihn weiter zur Oberfläche
+		header('Location: ../printer.php');
+	}
 } else {
     $logged = 'abgemeldet';
 }

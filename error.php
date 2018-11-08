@@ -9,11 +9,14 @@ if (! $error) {
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Login: Fehler</title>
+        <title>Fehler</title>
         <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
-        <h1>Es ist ein Problem aufgetreten</h1>
-        <p class="error"><?php echo $error; ?></p>  
+		<div id="response">
+			<h1>Es ist ein Problem aufgetreten</h1>
+			<p class="error"><?php echo $error; ?></p>  
+		</div>
+		<?php include 'breadcrumbs/back_to_login.php'; ?>
     </body>
 </html>

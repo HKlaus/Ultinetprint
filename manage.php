@@ -14,6 +14,9 @@ if (login_check($mysqli) > 0) {
 if (admin_check($mysqli) > 0) {
 	$admin = 'angemeldet';
 }
+if (active_check($mysqli) == 0) {		// Wenn Account noch nicht aktiviert ist, leite auf Fehler-Seite
+	header("Location: ../error.php?err=Account noch nicht aktiviert. Überprüfe dein E-Mail Postfach.");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,19 +30,11 @@ if (admin_check($mysqli) > 0) {
 	<?php include 'breadcrumbs/logged_in_as.php'; ?>
 	<?php include 'breadcrumbs/navigation.php'; ?>
 	<div id="background">
-		<div id="prints">
-		<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_prints">
-			<?php show_prints($mysqli);?>
-			<div id="input"><input type="submit" value="Los!"></input></div>
-		</form>
-		</div>
 		<div id="users">
 		<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_users">
 			<?php show_users($mysqli);?>
-			<div id="input"><input type="submit" value="Los!"></input></div>
 		</form>
 		</div>
-	&nbsp;</div>
 	&nbsp;</div>
 	<?php include 'breadcrumbs/logout.htm'; ?>
 	</body>

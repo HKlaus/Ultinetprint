@@ -1,37 +1,102 @@
 <?php
 
+//
+//	Stelle Datenbank dar
+
 function show_users($mysqli) {
 	// gibt die Tabellenbeschriftung aus
-	echo "<div class='row'><div class='inline' id='id'> ID 
-	</div><div class='inline' id='email'> Email 
-	</div><div class='inline' id='level'> Betreuer?
-	</div><div class='inline' id='delete'> Lösche Benutzer
-	</div><div class='inline' id='level'> Ändere Rechte
+	echo "<div class='row'><div class='inline' id='active'><b>Aktiv</b>
+	</div><div class='inline' id='email'><b>Email</b>
+	</div><div class='inline' id='level'><b>Betreuer?</b>
+	</div><div class='inline' id='user_action'><b>Druckrechte</b>
 	</div></div>";
-    if ($stmt = $mysqli->query("SELECT id, email, level FROM users")) {
+    if ($stmt = $mysqli->query("SELECT id, email, level, active, rights FROM users")) {
         // hole Variablen von result.
         while ($row = $stmt->fetch_row()){
-			$admin = "-";
-			if ($row[2] > 0) { $admin = "Ja"; }
+			$level_img = "<img src='images/rang_hoch.png' alt='Nein'>";
+			$rights_img = "<img src='images/löschen.png' alt='Nein'>";
+			$active_img = "<img src='images/inaktiv.png' alt='Inaktiv'>";
+			if ($row[2] > 0) { 
+				$level_img = "<img src='images/erfolg.png' alt='Ja'>";
+			}
+			if ($row[3] > 0) {
+				$active_img = "<img src='images/erfolg.png' alt='Aktiv'>";
+			}
+			if ($row[4] > 0) { 
+				$rights_img = "<img src='images/erfolg.png' alt='Ja'>";
+			}
 			// gebe Benutzer zeilenweiße aus 
-			echo "<div class='row'><div class='inline' id='id'>" . $row[0] . 
-			     "</div><div class='inline' id='email'>" . $row[1] . 
-				 "</div><div class='inline' id='level'>" . $admin . 
-				 "</div><input class='delete' type='radio' name='deleteuser' id='delete" . $row[0] . "' value='" .  $row[0] . "'  onclick='javascript:uncheck(delete" . $row[0] . ")'>
-						<input class='level' type='radio' name='level' id='level" . $row[0] . "' value='" .  $row[0] . "'  onclick='javascript:uncheck(level" . $row[0] . ")'></div>";
+			echo "<div class='row'><div class='inline' id='active'><label for='active" . $row[0] . "'>" . $active_img . "</label>
+				  <input class='user_button' type='submit' name='active' id='active" . $row[0] . "' value='" .  $row[0] . "'>
+			      </div><div class='inline' id='email'>" . $row[1] . 
+				 "</div><div class='inline' id='level'><label for='level" . $row[0] . "'>". $level_img . "</label>
+				  <input class='user_button' type='submit' name='level' id='level" . $row[0] . "' value='" .  $row[0] . "'>
+				  </label></div><div class='inline right'>
+				  <label for='rights" . $row[0] . "'>". $rights_img . "</label>
+				  <input class='user_button' type='submit' name='userrights' id='rights" . $row[0] . "' value='" .  $row[0] . "'></div></div>";
 		}
 		// Free result 
 		$stmt->close();
 	}
 }
-function delete_user($mysqli, $user_id) {		// Lösche ausgewählten Benutzer
-	if ($stmt = $mysqli->prepare("DELETE FROM users WHERE id = ?")) {
+
+function show_prints($mysqli) {		// Zeige alle Druckaufträge aus Warteschlange an
+	// gibt die Tabellenbeschriftung aus
+	echo "<div class='row'><div class='inline' id='user'><b>Benutzer</b>
+	</div><div class='inline' id='file_name'><b>Datei</b>
+	</div><div class='inline' id='priority'><b>Priorität</b>
+	</div><div class='inline' id='print_time'><b>Dauer</b>
+	</div><div class='inline' id='delete'>
+	</div></div>";
+    if ($stmt = $mysqli->query("SELECT users.email, to_print.id, to_print.file_name, to_print.priority, to_print.print_time, to_print.time FROM to_print INNER JOIN users on to_print.user_id=users.id ORDER BY to_print.priority DESC, time ASC")) {
+        // hole Variablen von result.
+        while ($row = $stmt->fetch_row()){
+			$delete_img = "<img title='Löschen' src='images/löschen.png' alt='Nein'>";
+			$priority_img = "<img title='Priorität' src='images/stern.png' alt='+'>";
+			// gebe Aufträge zeilenweiße aus 
+			echo "<div class='row'><div class='inline' id='user'>" . substr($row[0], 0, strpos($row[0], "@")) . 		// Gebe Benutzer ohne Email-Endung an
+			     "</div><div class='inline' id='file_name'>" . substr($row[2], 0, strpos($row[2], ".gcode")) . 			// Gebe Dateiname ohne gcode-Endung an
+				 "</div><div class='inline' id='priority'><label>" . str_repeat($priority_img, $row[3]) .
+				 "</label></div><div class='inline' id='print_time'>" . seconds_to_time($row[4]) .
+				 "</div><div class='inline right'>
+				  <label for='deleteprint" . $row[1] . "'>". $delete_img . "</label>
+				  <input class='user_button' type='submit' name='deleteprint' id='deleteprint" . $row[1] . "' value='" .  $row[1] . "'></div></div>";
+		}
+		// Free result 
+		$stmt->close();
+	}
+}
+
+//
+//	Ändere Datenbank
+
+function change_rights($mysqli, $user_id) {		// Gebe ausgewähltem Benutzer Druckrechte
+	if ($stmt = $mysqli->prepare("SELECT rights FROM users WHERE id = ? LIMIT 1")) {
         $stmt->bind_param('i', $user_id);
-		// Führe die vorbereitet Abfrage aus.
-		if (! $stmt->execute()) {
-            header('Location: ../error.php?err=Verwaltungs Fehler: DELETE');
-        }
-    }
+		$stmt->execute();   // Execute the prepared query.
+        $stmt->store_result();
+		
+		// hole Variable von result.
+		if ($stmt->num_rows == 1) {
+			$stmt->bind_result($old_user_rights);
+			$stmt->fetch();
+		echo $old_user_rights . " " . $user_id;
+			$new_user_rights = 0;		// Wenn Benutzer Rechte 1 hatte dann setze Rechte 0
+			if ($old_user_rights == 0) { $new_user_rights = 1; } 	// Ansonsten setze Rechte auf 1
+			if ($stmt = $mysqli->prepare("UPDATE users SET rights = ? WHERE id = ?")) {
+				$stmt->bind_param('ii', $new_user_rights, $user_id);
+				// Führe die vorbereitet Abfrage aus.
+				if (! $stmt->execute()) {
+					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Rechte');
+				}
+			}
+		}
+		if ($new_user_rights == 1) {
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte erteilt.</div>";
+		} else {
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte entzogen.</div>";
+		}
+	}
 }
 function change_user_level($mysqli, $user_id) {	// Ändere das Level des ausgewählten Benutzers
 	if ($stmt = $mysqli->prepare("SELECT level FROM users WHERE id = ? LIMIT 1")) {
@@ -50,9 +115,42 @@ function change_user_level($mysqli, $user_id) {	// Ändere das Level des ausgew�
 				$stmt->bind_param('ii', $new_user_level, $user_id);
 				// Führe die vorbereitet Abfrage aus.
 				if (! $stmt->execute()) {
-					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE');
+					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Level');
 				}
 			}
+		}
+		if ($new_user_level == 1) {
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Betreuerrechte erteilt.</div>";
+		} else {
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Betreuerrechte entzogen.</div>";
+		}
+	}
+}
+function change_user_active($mysqli, $user_id) {	// Ändere ob Account des ausgewählten Benutzers aktiv ist
+	if ($stmt = $mysqli->prepare("SELECT active FROM users WHERE id = ? LIMIT 1")) {
+        $stmt->bind_param('i', $user_id);
+		$stmt->execute();   // Execute the prepared query.
+        $stmt->store_result();
+		
+		// hole Variable von result.
+		if ($stmt->num_rows == 1) {
+			$stmt->bind_result($old_user_active);
+			$stmt->fetch();
+		
+			$new_user_active = 0;		// Wenn Benutzer aktiv war dann setze auf inaktiv
+			if ($old_user_active == 0) { $new_user_active = 1; } 	// Ansonsten setze auf aktiv
+			if ($stmt = $mysqli->prepare("UPDATE users SET active = ? WHERE id = ?")) {
+				$stmt->bind_param('ii', $new_user_active, $user_id);
+				// Führe die vorbereitet Abfrage aus.
+				if (! $stmt->execute()) {
+					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Aktiv');
+				}
+			}
+		}
+		if ($new_user_active == 1) {
+			echo "<div id='response'>Account des Benutzer Nr. " . $user_id . " aktiviert.</div>";
+		} else {
+			echo "<div id='response'>Account des Benutzer Nr. " . $user_id . " deaktiviert.</div>";
 		}
 	}
 }
@@ -63,7 +161,7 @@ function log_history($mysqli, $user_id, $request, $path, $data="NULL") {
         $insert_stmt->bind_param('issss', $user_id, $request, $now, $path, $data);
         // Führe die vorbereitete Anfrage aus.
         if (! $insert_stmt->execute()) {
-            header('Location: ../error.php?err=Logging Fehler: INSERT');
+            header('Location: ../error.php?err=Logging Fehler: INSERT Log');
         }
     }
 }
@@ -73,31 +171,9 @@ function insert_print($mysqli, $user_id, $file_name, $priority, $print_time) {		
         $insert_stmt->bind_param('isiss', $user_id, $file_name, $priority, $print_time, $now);
         // Führe die vorbereitete Anfrage aus.
         if (! $insert_stmt->execute()) {
-            header('Location: ../error.php?err=Druck Fehler: INSERT');
+            header('Location: ../error.php?err=Druck Fehler: INSERT Druck');
         }
     }
-}
-function show_prints($mysqli) {		// Zeige alle Druckaufträge aus Warteschlange an
-	// gibt die Tabellenbeschriftung aus
-	echo "<div class='row'><div class='inline' id='user'> Benutzer 
-	</div><div class='inline' id='file_name'> Datei
-	</div><div class='inline' id='priority'> Priorität
-	</div><div class='inline' id='print_time'>Dauer
-	</div><div class='inline' id='delete'> Lösche Auftrag
-	</div></div>";
-    if ($stmt = $mysqli->query("SELECT users.email, to_print.id, to_print.file_name, to_print.priority, to_print.print_time, to_print.time FROM to_print INNER JOIN users on to_print.user_id=users.id ORDER BY to_print.priority DESC, time ASC")) {
-        // hole Variablen von result.
-        while ($row = $stmt->fetch_row()){
-			// gebe Aufträge zeilenweiße aus 
-			echo "<div class='row'><div class='inline' id='user'>" . substr($row[0], 0, strpos($row[0], "@")) . 		// Gebe Benutzer ohne Email-Endung an
-			     "</div><div class='inline' id='file_name'>" . substr($row[2], 0, strpos($row[2], ".gcode")) . 			// Gebe Dateiname ohne gcode-Endung an
-				 "</div><div class='inline' id='priority'>" . str_repeat("+", $row[3]) .
-				 "</div><div class='inline' id='print_time'>" . seconds_to_time($row[4]) .
-						"</div><input class='delete' type='radio' name='deleteprint' id='deleteprint" . $row[1] . "' value='" .  $row[1] . "'  onclick='javascript:uncheck(deleteprint" . $row[1] . ")'></div>";
-		}
-		// Free result 
-		$stmt->close();
-	}
 }
 function delete_print($mysqli, $print_id) {		// Lösche ausgewählten Auftrag
 	if ($stmt = $mysqli->prepare("DELETE FROM to_print WHERE id = ?")) {
@@ -105,29 +181,23 @@ function delete_print($mysqli, $print_id) {		// Lösche ausgewählten Auftrag
 		// Führe die vorbereitet Abfrage aus.
 		if (! $stmt->execute()) {
             header('Location: ../error.php?err=Druck Fehler: DELETE');
-        }
+        }	
+		echo "<div id='response'>Druck Nr. " . $_POST['deleteprint'] . " gelöscht.</div>";
     }
 }
 
 //
 //	Verarbeite POST Requests
 
-if (isset($_POST['deleteuser']) and isset($_POST['level']) and $_POST['deleteuser'] == $_POST['level']) {
-	echo "<div id='response'>Bitte nicht sowohl 'Löschen' als auch 'Rechte ändern' für den gleichen Benutzer ankreuzen!</div>";
-} else if (isset($_POST['deleteuser']) or isset($_POST['level'])) {
-	$delete_user = $_POST['deleteuser'];
-	$level_user = $_POST['level'];
-	if (isset($delete_user)) {
-		echo "<div id='response'>Benutzer Nr. " . $delete_user . " gelöscht.</div>";
-		delete_user($mysqli, $delete_user);
-	} 
-	if (isset($level_user)) {
-		echo "<div id='response'>Rechte des Benutzers Nr. " . $level_user . " geändert.</div>";
-		change_user_level($mysqli, $level_user);
-	}
+if (isset($_POST['active'])) {
+	change_user_active($mysqli, $_POST['active']);
+}
+if (isset($_POST['level'])) {
+	change_user_level($mysqli, $_POST['level']);
+}
+if (isset($_POST['userrights'])) {
+	change_rights($mysqli, $_POST['userrights']);
 }
 if (isset($_POST['deleteprint'])) {
-	$delete_print = $_POST['deleteprint'];
-	echo "<div id='response'>Druck Nr. " . $delete_print . " gelöscht.</div>";
-	delete_print($mysqli, $delete_print);
+	delete_print($mysqli, $_POST['deleteprint']);
 }

@@ -4,6 +4,11 @@
 		Drucker
 		</div> 
 	</a>
+	<a href='queue.php'>
+		<div id='nav_printer' class='nav_item'>
+		Aufträge
+		</div> 
+	</a>
 	<?php if($admin == 'angemeldet') { echo "
 	<a href='manage.php'>
 		<div id='nav_manage' class='nav_item'>
