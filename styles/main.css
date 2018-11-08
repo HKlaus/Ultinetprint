@@ -20,7 +20,12 @@ input {
 	padding: 5px 10px;
 }
 option {
-    color: #000;
+	color: #f8f8f8;
+	padding-top: 5px;
+}
+select {
+	padding: 10px 5px;
+	background-color: #aeaeae;
 }
 #navigation_bar a {
     text-decoration: none;

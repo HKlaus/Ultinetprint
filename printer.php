@@ -30,6 +30,7 @@ include_once 'includes/manage_printer_functions.php';
         <title>Drucker verwalten</title>
         <link rel="stylesheet" href="styles/main.css" />
         <link rel="stylesheet" href="styles/printer.css" />
+        <link rel="stylesheet" href="styles/input.css" />
 		<script type="text/JavaScript" src="js/time.js"></script>
     </head>
     <body>
