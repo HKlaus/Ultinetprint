@@ -7,6 +7,9 @@ sec_session_start();
 
 if (login_check($mysqli) > 0) {
     $logged = 'angemeldet';
+	if (active_check($mysqli) == 0) {		// Wenn Account noch nicht aktiviert ist, leite auf Fehler-Seite
+		header("Location: ../error.php?err=Account noch nicht aktiviert. Überprüfe dein E-Mail Postfach.");
+	}
 } else {
     $logged = 'abgemeldet';
 	header('Location: ../index.php');
@@ -14,14 +17,11 @@ if (login_check($mysqli) > 0) {
 if (admin_check($mysqli) > 0) {
 	$admin = 'angemeldet';
 }
-if (active_check($mysqli) == 0) {		// Wenn Account noch nicht aktiviert ist, leite auf Fehler-Seite
-	header("Location: ../error.php?err=Account noch nicht aktiviert. Überprüfe dein E-Mail Postfach.");
-}
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Datenbank Verwalten</title>
+        <title>Benutzer Verwalten</title>
         <link rel="stylesheet" href="styles/main.css" />
         <link rel="stylesheet" href="styles/manage.css" />
         <script type="text/JavaScript" src="js/radiobutton.js"></script> 

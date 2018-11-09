@@ -12,7 +12,7 @@
 	<?php if($admin == 'angemeldet') { echo "
 	<a href='manage.php'>
 		<div id='nav_manage' class='nav_item'>
-		Verwaltung
+		Benutzer
 		</div>
 	</a>
 	"; } ?>

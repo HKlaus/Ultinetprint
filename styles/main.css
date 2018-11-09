@@ -34,7 +34,7 @@ select {
 .nav_item {
     display: inline-block;
 	padding: 25px 30px;
-	background-color: #9b9999;
+	background-color: #bfbfbf;
 	margin-right: 10px;
 }
 .nav_item:hover {
@@ -58,6 +58,7 @@ select {
 #logout {
     padding: 20px;
     background-color: #03b670;
+	margin-bottom: 100px;
 }
 #navigation_bar {
 	margin-bottom: 20px;

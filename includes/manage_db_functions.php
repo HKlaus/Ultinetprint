@@ -31,7 +31,7 @@ function show_users($mysqli) {
 			      </div><div class='inline' id='email'>" . $row[1] . 
 				 "</div><div class='inline' id='level'><label for='level" . $row[0] . "'>". $level_img . "</label>
 				  <input class='user_button' type='submit' name='level' id='level" . $row[0] . "' value='" .  $row[0] . "'>
-				  </label></div><div class='inline right'>
+				  </label></div><div id='user_action' class='inline'>
 				  <label for='rights" . $row[0] . "'>". $rights_img . "</label>
 				  <input class='user_button' type='submit' name='userrights' id='rights" . $row[0] . "' value='" .  $row[0] . "'></div></div>";
 		}
