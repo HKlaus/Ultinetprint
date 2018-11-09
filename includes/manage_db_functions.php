@@ -79,16 +79,16 @@ function change_rights($mysqli, $user_id) {		// Gebe ausgewähltem Benutzer Druc
 		// hole Variable von result.
 		if ($stmt->num_rows == 1) {
 			$stmt->bind_result($old_user_rights);
-			$stmt->fetch();
-		echo $old_user_rights . " " . $user_id;
+			$stmt->fetch(); 
 			$new_user_rights = 0;		// Wenn Benutzer Rechte 1 hatte dann setze Rechte 0
 			if ($old_user_rights == 0) { $new_user_rights = 1; } 	// Ansonsten setze Rechte auf 1
 			if ($stmt = $mysqli->prepare("UPDATE users SET rights = ? WHERE id = ?")) {
 				$stmt->bind_param('ii', $new_user_rights, $user_id);
 				// Führe die vorbereitet Abfrage aus.
-				if (! $stmt->execute()) {
+				if (!$stmt->execute()) {
 					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Rechte');
 				}
+			db_history($mysqli, "changed user rights", $user_id);			// trage in DB History Tabelle ein
 			}
 		}
 		if ($new_user_rights == 1) {
@@ -117,6 +117,7 @@ function change_user_level($mysqli, $user_id) {	// Ändere das Level des ausgew�
 				if (! $stmt->execute()) {
 					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Level');
 				}
+			db_history($mysqli, "changed user level", $user_id);			// trage in DB History Tabelle ein
 			}
 		}
 		if ($new_user_level == 1) {
@@ -145,6 +146,7 @@ function change_user_active($mysqli, $user_id) {	// Ändere ob Account des ausge
 				if (! $stmt->execute()) {
 					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Aktiv');
 				}
+			db_history($mysqli, "changed user active", $user_id);			// trage in DB History Tabelle ein
 			}
 		}
 		if ($new_user_active == 1) {
@@ -154,17 +156,12 @@ function change_user_active($mysqli, $user_id) {	// Ändere ob Account des ausge
 		}
 	}
 }
-function log_history($mysqli, $user_id, $request, $path, $data="NULL") {
-	$now = time();
-	// Logge alle HTTP post & put Anfragen
-	if ($insert_stmt = $mysqli->prepare("INSERT INTO history (user_id, request, time, path, data) VALUES (?, ?, ?, ?, ?)")) {
-        $insert_stmt->bind_param('issss', $user_id, $request, $now, $path, $data);
-        // Führe die vorbereitete Anfrage aus.
-        if (! $insert_stmt->execute()) {
-            header('Location: ../error.php?err=Logging Fehler: INSERT Log');
-        }
-    }
-}
+
+
+//
+//	Funktionen zur Druckauftragsverwaltung
+
+
 function insert_print($mysqli, $user_id, $file_name, $priority, $print_time) {		// Trage Druckauftrag in Warteschlange ein
 	$now = time();
 	if ($insert_stmt = $mysqli->prepare("INSERT INTO to_print (user_id, file_name, priority, print_time, time) VALUES (?, ?, ?, ?, ?)")) {
@@ -173,6 +170,7 @@ function insert_print($mysqli, $user_id, $file_name, $priority, $print_time) {		
         if (! $insert_stmt->execute()) {
             header('Location: ../error.php?err=Druck Fehler: INSERT Druck');
         }
+		db_history($mysqli, "inserted print " . $file_name . " with priority " . $priority, $user_id);			// trage in DB History Tabelle ein
     }
 }
 function delete_print($mysqli, $print_id) {		// Lösche ausgewählten Auftrag
@@ -182,12 +180,37 @@ function delete_print($mysqli, $print_id) {		// Lösche ausgewählten Auftrag
 		if (! $stmt->execute()) {
             header('Location: ../error.php?err=Druck Fehler: DELETE');
         }	
+		db_history($mysqli, "deleted print", $print_id);			// trage in DB History Tabelle ein
 		echo "<div id='response'>Druck Nr. " . $_POST['deleteprint'] . " gelöscht.</div>";
     }
 }
 
 //
-//	Verarbeite POST Requests
+//	Log Funktionen
+
+function printer_history($mysqli, $user_id, $request, $path, $data="NULL") {
+	$now = time();
+	// Logge alle HTTP post & put Anfragen
+	if ($insert_stmt = $mysqli->prepare("INSERT INTO printer_history (user_id, request, time, path, data) VALUES (?, ?, ?, ?, ?)")) {
+        $insert_stmt->bind_param('issss', $user_id, $request, $now, $path, $data);
+        // Führe die vorbereitete Anfrage aus.
+        if (!$insert_stmt->execute()) {
+            header('Location: ../error.php?err=Logging Fehler: INSERT Printer Log');
+        }
+    }
+}
+function db_history($mysqli, $action, $data) {
+	$now = time();
+	// Logge alle Benutzeraktionen
+	if ($insert_stmt = $mysqli->prepare("INSERT INTO db_history (action, time, data) VALUES (?, ?, ?)")) {
+        $insert_stmt->bind_param('sss', $action, $now, $data);
+        // Führe die vorbereitete Anfrage aus.
+        if (!$insert_stmt->execute()) {
+            header('Location: ../error.php?err=Logging Fehler: INSERT DB Log');
+        }
+    }
+}
+
 
 if (isset($_POST['active'])) {
 	change_user_active($mysqli, $_POST['active']);

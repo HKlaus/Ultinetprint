@@ -37,15 +37,15 @@ class Ultimaker3 {
 		return get($this, $path);
 	}
 	function post($path, $data) {
-		log_history($this->mysqli, $this->user->get_user_id(), "post", $path, $data);
+		printer_history($this->mysqli, $this->user->get_user_id(), "post", $path, $data);
 		return post($this, $path, $data);
 	}
 	function put($path, $data) {
-		log_history($this->mysqli, $this->user->get_user_id(), "put", $path, $data);
+		printer_history($this->mysqli, $this->user->get_user_id(), "put", $path, $data);
 		return put($this, $path, $data);
 	}
 	function post_file($path) {
-		log_history($this->mysqli, $this->user->get_user_id(), "post_file", "/print_job", $path);
+		printer_history($this->mysqli, $this->user->get_user_id(), "post_file", "/print_job", $path);
 		return post_file($this, $path);
 	}
 }
