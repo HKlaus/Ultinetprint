@@ -4,7 +4,7 @@ include_once 'mail.php';
  
 $error_msg = "";
  
-if (isset($_POST['email'], $_POST['p'])) {
+if (isset($_POST['email'], $_POST['p'])) {	
     // Bereinige und überprüfe die Daten
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $email = filter_var($email, FILTER_VALIDATE_EMAIL);
@@ -67,7 +67,6 @@ if (isset($_POST['email'], $_POST['p'])) {
                 header('Location: ../error.php?err=Registrations Fehler: INSERT');
             }
         }
-		send_verify($email, $password);
-        //header('Location: ./index.php?success=1');
+		send_verify($email, $password);			// Sende die Aktivierungsmail an $email und benutze den Passwort-Hash $password als Hash für den Aktivierungslink
     }
 }

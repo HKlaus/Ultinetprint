@@ -5,18 +5,7 @@ include_once 'includes/manage_db_functions.php';
 
 sec_session_start();
 
-if (login_check($mysqli) > 0) {
-    $logged = 'angemeldet';
-	if (active_check($mysqli) == 0) {		// Wenn Account noch nicht aktiviert ist, leite auf Fehler-Seite
-		header("Location: ../error.php?err=Account noch nicht aktiviert. Überprüfe dein E-Mail Postfach.");
-	}
-} else {
-    $logged = 'abgemeldet';
-	header('Location: ../index.php');
-}
-if (admin_check($mysqli) > 0) {
-	$admin = 'angemeldet';
-}
+include_once 'breadcrumbs/check_rights.php';
 ?>
 <!DOCTYPE html>
 <html>

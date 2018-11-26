@@ -149,35 +149,57 @@ function login_check($mysqli) {
 }
 
 function admin_check($mysqli) {	//überprüfe ob angemeldeter Benutzer höhere Rechte hat
-	$user_id = $_SESSION['user_id'];
-	if ($stmt = $mysqli->prepare("SELECT level FROM users WHERE id = ? LIMIT 1")) {
-            $stmt->bind_param('i', $user_id);
-            $stmt->execute();   // Führe das prepared-Statement aus
-            $stmt->store_result();
+	if (isset($_SESSION['user_id'])) {
+		$user_id = $_SESSION['user_id'];
+		if ($stmt = $mysqli->prepare("SELECT level FROM users WHERE id = ? LIMIT 1")) {
+			$stmt->bind_param('i', $user_id);
+			$stmt->execute();   // Führe das prepared-Statement aus
+			$stmt->store_result();
 
-            if ($stmt->num_rows == 1) {
-                // Wenn es den Benutzer gibt, hole die Variablen von result.
-                $stmt->bind_result($level);
-                $stmt->fetch();
-                return $level;
-            }
+			if ($stmt->num_rows == 1) {
+				// Wenn es den Benutzer gibt, hole die Variablen von result.
+				$stmt->bind_result($level);
+				$stmt->fetch();
+				return $level;
+			}
         }
+	}
 }
 
 function active_check($mysqli) {	//überprüfe ob angemeldeter Benutzer einen aktivierten Account hat
-	$user_id = $_SESSION['user_id'];
-	if ($stmt = $mysqli->prepare("SELECT active FROM users WHERE id = ? LIMIT 1")) {
-            $stmt->bind_param('i', $user_id);
-            $stmt->execute();   // Führe das prepared-Statement aus
-            $stmt->store_result();
+	if (isset($_SESSION['user_id'])) {
+		$user_id = $_SESSION['user_id'];
+		if ($stmt = $mysqli->prepare("SELECT active FROM users WHERE id = ? LIMIT 1")) {
+				$stmt->bind_param('i', $user_id);
+				$stmt->execute();   // Führe das prepared-Statement aus
+				$stmt->store_result();
 
-            if ($stmt->num_rows == 1) {
-                // Wenn es den Benutzer gibt, hole die Variablen von result.
-                $stmt->bind_result($active);
-                $stmt->fetch();
-                return $active;
-            }
-        }
+				if ($stmt->num_rows == 1) {
+					// Wenn es den Benutzer gibt, hole die Variablen von result.
+					$stmt->bind_result($active);
+					$stmt->fetch();
+					return $active;
+				}
+			}
+	}
+}
+
+function printrights_check($mysqli) {	//überprüfe ob angemeldeter Benutzer einen aktivierten Account hat
+	if (isset($_SESSION['user_id'])) {
+		$user_id = $_SESSION['user_id'];
+		if ($stmt = $mysqli->prepare("SELECT rights FROM users WHERE id = ? LIMIT 1")) {
+				$stmt->bind_param('i', $user_id);
+				$stmt->execute();   // Führe das prepared-Statement aus
+				$stmt->store_result();
+
+				if ($stmt->num_rows == 1) {
+					// Wenn es den Benutzer gibt, hole die Variablen von result.
+					$stmt->bind_result($rights);
+					$stmt->fetch();
+					return $rights;
+				}
+			}
+	}
 }
 
 function email_check($mysqli) {	//überprüfe Email Adresse von angemeldetem Benutzer

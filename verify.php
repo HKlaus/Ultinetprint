@@ -12,7 +12,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
 	$match  = mysqli_num_rows($search);
 	if($match > 0){
 		mysqli_query($mysqli, "UPDATE users SET active='1' WHERE email='".$email."' AND password='".$hash."' AND active='0'");
-		echo "<div id='response'><h1>Dein Account <b>". $email . "</b> wurde aktiviert</h1></div>";
+		echo "<div id='response'>Dein Account <b>". $email . "</b> wurde aktiviert</div>";
 	} else {
 		echo "<div id='response'><h1>Es ist ein Problem aufgetreten.</h1><p>Entweder ist der Link inkorrekt oder der Account wurde bereits aktiviert.</p></div>";
 	}

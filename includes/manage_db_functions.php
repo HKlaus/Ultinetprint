@@ -48,7 +48,7 @@ function show_prints($mysqli) {		// Zeige alle Druckaufträge aus Warteschlange 
 	</div><div class='inline' id='print_time'><b>Dauer</b>
 	</div><div class='inline' id='delete'>
 	</div></div>";
-    if ($stmt = $mysqli->query("SELECT users.email, to_print.id, to_print.file_name, to_print.priority, to_print.print_time, to_print.time FROM to_print INNER JOIN users on to_print.user_id=users.id ORDER BY to_print.priority DESC, time ASC")) {
+    if ($stmt = $mysqli->query("SELECT users.email, to_print.id, to_print.file_name, to_print.priority, to_print.print_time, to_print.time, to_print.user_id FROM to_print INNER JOIN users ON to_print.user_id=users.id ORDER BY to_print.priority DESC, time ASC")) {
         // hole Variablen von result.
         while ($row = $stmt->fetch_row()){
 			$delete_img = "<img title='Löschen' src='images/löschen.png' alt='Nein'>";
@@ -58,9 +58,13 @@ function show_prints($mysqli) {		// Zeige alle Druckaufträge aus Warteschlange 
 			     "</div><div class='inline' id='file_name'>" . substr($row[2], 0, strpos($row[2], ".gcode")) . 			// Gebe Dateiname ohne gcode-Endung an
 				 "</div><div class='inline' id='priority'><label>" . str_repeat($priority_img, $row[3]) .
 				 "</label></div><div class='inline' id='print_time'>" . seconds_to_time($row[4]) .
-				 "</div><div class='inline right'>
+				 "</div>";
+			if (login_check($mysqli) == $row[6] or admin_check($mysqli) > 0) {
+				echo "<div class='inline right'>
 				  <label for='deleteprint" . $row[1] . "'>". $delete_img . "</label>
-				  <input class='user_button' type='submit' name='deleteprint' id='deleteprint" . $row[1] . "' value='" .  $row[1] . "'></div></div>";
+				  <input class='user_button' type='submit' name='deleteprint' id='deleteprint" . $row[1] . "' value='" .  $row[1] . "'></div>";
+			}
+			echo "</div>";
 		}
 		// Free result 
 		$stmt->close();

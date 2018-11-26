@@ -25,7 +25,7 @@ include_once 'includes/functions.php';
 			<ul>
 				<li>E-Mail-Adressen müssen ein gültiges Format haben.</li>
 				<li>E-Mail-Adressen müssen HFU Endung haben (@hs-furtwangen.de).</li>
-				<li>Passwörter müssen mindest sechs Zeichen lang sein.</li>
+				<li>Passwörter müssen mindestens sechs Zeichen lang sein.</li>
 				<li>Passwörter müssen enthalten
 					<ul>
 						<li>mindestens einen Großbuchstaben (A..Z)</li>

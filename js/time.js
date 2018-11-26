@@ -18,7 +18,7 @@ function timer(time) {
 		  // Zeige das Resultat an
 		  document.getElementById("timer").innerHTML = "am Drucken: ";
 		  if (days > 0) {
-			  document.getElementById("timer").innerHTML += days + " Tage ";
+			  document.getElementById("timer").innerHTML += days + " Tag(e) ";
 		  }
 		  if (hours > 0) {
 			  document.getElementById("timer").innerHTML += hours + ":";
@@ -28,7 +28,7 @@ function timer(time) {
 		  // Wenn der Timer abgelaufen ist
 		  if (distance < 0) {
 			clearInterval(x);
-			document.getElementById("timer").innerHTML = "Druck fertiggestellt.";
+			document.getElementById("timer").innerHTML = "Dauer: 0:00";
 		  }
 	}, 1000);
 }

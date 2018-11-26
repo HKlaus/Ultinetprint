@@ -1,4 +1,15 @@
 * {}
+footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 800px;
+   height: 48px;
+   background-color: #03b670;
+   color: white;
+   text-align: right;
+   border-radius: 0px 8px 0px 0px;
+}
 .right_value select {
     width: 80%;
 }
@@ -11,13 +22,72 @@
 	border-bottom: 1px solid #dedede;
 	
 }
+.printer_button {
+    display: none;
+}
+.printer_button_img {
+	width: 48px;
+	height: 48px;
+	border-radius: 0px;
+	padding: 0px;
+	background-color: #bababa;
+	margin-right: 15px;
+}
+.printer_button_img:hover {
+    background-color: #aeaeae;
+}
 .right_value {
     text-align: right;
 }
-#auth_img {
+#img {
     height: 16px;
+}
+#next_print {
+	padding: 15px;
+	position: fixed;
+	left: 0;
+	bottom: 0px;
+}
+#next_print_name {
+	overflow: hidden;
+	position: absolute;
+	width: 500px;
 }
 #webcam_container {
     text-align: center;
     padding: 20px;
+}
+#printer_buttons {
+	padding: 0px;
+}
+#printer_buttons_enabled {
+	cursor: pointer;
+}
+#printer_buttons_disabled {
+	cursor: not-allowed;
+}
+
+
+// Source: https://codepen.io/jamesbarnett/pen/kfmKa
+.next_print_name {
+  height: 25px;
+  width: 420px;
+  overflow: hidden;
+  position: relative;
+}
+.next_print_name div {
+  display: block;
+  width: 200%;
+  height: 30px;
+  position: absolute;
+  overflow: hidden;
+  animation: marquee 5s linear infinite;
+}
+.next_print_name span {
+  float: left;
+  width: 50%;
+}
+@keyframes marquee {
+  0% { left: 0; }
+  100% { left: -100%; }
 }
