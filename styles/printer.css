@@ -26,21 +26,20 @@ footer {
     display: none;
 }
 .printer_button_img {
-	width: 48px;
-	height: 48px;
+	width: 40px;
+	height: 40px;
 	border-radius: 0px;
-	padding: 0px;
-	background-color: #bababa;
-	margin-right: 15px;
+	padding: 4px;
+	margin-right: 0px;
 }
 .printer_button_img:hover {
-    background-color: #aeaeae;
+    #background-color: #eaeaea;
+}
+.printer_button_img_right {
+	margin-right: 15px;
 }
 .right_value {
     text-align: right;
-}
-#img {
-    height: 16px;
 }
 #next_print {
 	padding: 15px;
@@ -65,29 +64,4 @@ footer {
 }
 #printer_buttons_disabled {
 	cursor: not-allowed;
-}
-
-
-// Source: https://codepen.io/jamesbarnett/pen/kfmKa
-.next_print_name {
-  height: 25px;
-  width: 420px;
-  overflow: hidden;
-  position: relative;
-}
-.next_print_name div {
-  display: block;
-  width: 200%;
-  height: 30px;
-  position: absolute;
-  overflow: hidden;
-  animation: marquee 5s linear infinite;
-}
-.next_print_name span {
-  float: left;
-  width: 50%;
-}
-@keyframes marquee {
-  0% { left: 0; }
-  100% { left: -100%; }
 }

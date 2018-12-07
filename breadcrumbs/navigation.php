@@ -1,12 +1,17 @@
 <div id='navigation_bar'>
 	<a href='printer.php'>
 		<div id='nav_printer' class='nav_item'>
-		Drucker
+		Status
+		</div> 
+	</a>
+	<a href='print.php'>
+		<div id='nav_printer' class='nav_item'>
+		Drucken
 		</div> 
 	</a>
 	<a href='queue.php'>
 		<div id='nav_printer' class='nav_item'>
-		Aufträge
+		Queue
 		</div> 
 	</a>
 	<?php if($admin == 'angemeldet') { echo "

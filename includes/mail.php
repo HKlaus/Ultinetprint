@@ -25,11 +25,12 @@ function send_verify($email, $hash) {
 	$mail->Body = '
 	 
 	Vielen Dank fuer die Regsitrierung!
-	Der Account wurde erstellt und kann nach dem Aktivieren mit folgender Email verwendet werden:
+	Der Account wurde erstellt und kann nach dem Aktivieren mit folgender Email oder Benutzernamen verwendet werden:
 	 
 	------------------------
 	
-	'.$email.'
+	Benutzer: '. substr($email, 0, strpos($email, "@")) .'
+	E-Mail: '.$email.'
 	
 	------------------------
 	 
@@ -44,5 +45,41 @@ function send_verify($email, $hash) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
 	} else {
 		header('Location: ./index.php?success=1');
+	}
+}
+
+function send_notify($email, $print, $event) {
+	
+	//Create a new PHPMailer instance
+	$mail = new PHPMailer;
+	
+	$mail->isSMTP();
+	$mail->Host = 'localhost';
+	
+	//Set who the message is to be sent from
+	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');
+	//Set who the message is to be sent to
+	$mail->addAddress($email, '');
+	//Set the subject line
+	$mail->Subject = 'Ultimaker Benachrichtigung';
+	//Read an HTML message body from an external file, convert referenced images to embedded,
+	//convert HTML into a basic plain-text alternative body
+	$mail->Body = '
+	 
+	Dein Druck '.$print.' wurde um ' . date("H:i") . ' '.$event.'
+	 
+	
+	------------------------------------------------------------
+	https://ultinetprint.informatik.hs-furtwangen.de/printer.php
+	 
+	';	// Our message above including the link
+	
+	//send the message, check for errors
+	
+	if (!$mail->send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	} else {
+	//	header('Location: ./index.php?success=1');
+		echo "erfolgreich";
 	}
 }

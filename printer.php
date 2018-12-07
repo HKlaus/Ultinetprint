@@ -3,7 +3,6 @@ include_once 'includes/http.php';
 include_once 'includes/ultimaker.php';
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
-include_once 'includes/upload_to_serv.php';
 
 sec_session_start();
 
@@ -12,8 +11,8 @@ include_once 'breadcrumbs/check_rights.php';
 $ulti = new Ultimaker3($mysqli);			// Initialisiere den Drucker
 
 include_once 'includes/manage_db_functions.php';
-include_once 'includes/manage_prints_functions.php';
 include_once 'includes/manage_printer_functions.php';
+include_once 'includes/manage_prints_functions.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,8 +37,7 @@ include_once 'includes/manage_printer_functions.php';
 					<div class='right_value'><?php echo verify_auth($ulti); ?></div>
 				</div>
 				<div class='line'>
-					<div class='left_value'></div>
-					<div class='right_value'></div>
+					<div id="webcam_container"><?php include 'breadcrumbs/webcam.php'; ?></div>
 				</div>
 				<div class='line'>
 					<div class='left_value'>Drucker Status</div>
@@ -57,27 +55,6 @@ include_once 'includes/manage_printer_functions.php';
 					<div class='left_value'></div>
 					<div class='right_value'></div>
 				</div>
-				<div class='line'>
-					<div id="webcam_container"><?php include 'breadcrumbs/webcam.php'; ?></div>
-				</div>
-			<?php if ($printrighted == "berechtigt") { echo "
-				<div class='line'>
-					<div class='left_value'>Datei hochladen</div>
-					<div class='right_value'><?php include 'breadcrumbs/upload_prints.php'; ?></div>
-				</div>
-				<div class='line'>
-					<div class='left_value'></div>
-					<div class='right_value'></div>
-				</div>
-				<div class='line'>
-					<div class='left_value'>Verfügbare Dateien</div>
-					<div class='right_value'><?php include 'breadcrumbs/available_prints.php'; ?> </div>
-				</div>
-				<div class='line'>
-					<div class='left_value'></div>
-					<div class='right_value'></div>
-				</div>";
-			} ?>
 			</div>
 		</div>
 		<?php include 'breadcrumbs/footer.php'; ?>

@@ -15,6 +15,9 @@ label img:hover {
 .delete {
 	width: 150px;
 }
+.print {
+	width: 150px;
+}
 .inline {
 	display: inline-block;	
 }
@@ -34,22 +37,21 @@ label img:hover {
 .user_button {
 	display: none;
 }
-#user_action {
-	float: right;
-	margin-right: 60px;
-	text-align: center;
+#active {
 	width: 100px;
+	text-align: center;
 }
 #email {
-	min-width: 48%;
-	margin-left: 50px;
+	min-width: 60%;
+	margin-left: 30px;
 }
 #file_name {
-	min-width: 45%;
+	min-width: 42%;
 	margin-left: 50px;
 }
-#active {
-	width: 10px;
+#id {
+	width: 30px;
+	text-align: right;
 }
 #level {
 	width: 120px;
@@ -57,13 +59,22 @@ label img:hover {
 }
 #print_time {
 	width: 100px;
+	text-align: right;
 }
 #priority {
-	width: 150px;
+	width: 270px;
+}
+#date {
+	width: 200px;
 }
 #users {
-	padding-top: 20px;
 }
 #user {
 	width: 150px;
+}
+#user_action {
+	float: right;
+	margin-right: 60px;
+	text-align: center;
+	width: 100px;
 }

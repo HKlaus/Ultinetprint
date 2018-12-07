@@ -51,6 +51,18 @@ select {
 #input {
 	float: right;
 }
+#img {
+    height: 16px;
+    -webkit-transition: -webkit-transform .8s ease-in-out;
+		    transition:         transform .8s ease-in-out;
+}
+#img:hover {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+#login_form {
+	margin-left: 50px;
+}
 #logged_in {
     background-color: #03b670;
     padding: 20px;
@@ -70,4 +82,12 @@ select {
     padding: 20px;
     background-color: #9b9999;
     margin-bottom: 20px;
+}
+#title {
+}
+#title_img {
+	float: right;
+	height: 28px;
+	margin-top: -6px;
+	margin-bottom: -6px;
 }

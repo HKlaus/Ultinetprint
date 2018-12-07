@@ -30,3 +30,11 @@ function get_printprogress($ulti) {
 function get_state($ulti) {
 	return str_to_str($ulti->get("print_job/state"));
 }
+
+function is_printing($ulti) {		// Wasist der Drucker gerade am Drucken?
+	if (json_decode($ulti->get("print_job/name"))->{'message'} != "Not found") {
+		echo "<div id='response'>Die Datei <b>".  $ulti->get("print_job/name") . "</b> wird nun gedruckt.</div>";
+	} else {
+		echo "<div id='response'><b>Fehler</b> beim Drucken.</div>";
+	}
+}

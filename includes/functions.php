@@ -24,6 +24,11 @@ function sec_session_start() {
 }
 
 function login($email, $password, $mysqli) {
+	$hfu_pattern = "/@hs-furtwangen\.de/";
+	if (!preg_match($hfu_pattern, $email)) {
+		// keine HFU E-Mail sondern nur Benutzername
+		$email = $email . "@hs-furtwangen.de";
+	}
     // Das Benutzen vorbereiteter Statements verhindert SQL-Injektion.
     if ($stmt = $mysqli->prepare("SELECT id, password, salt
         FROM users
@@ -271,7 +276,8 @@ function esc_url($url) {
     }
 }
 
-function seconds_to_time($secs) {		// Für di Ausgabe der Druckdauer (die sich aus Sekunden errechnet)
+function seconds_to_time($secs) {		// Für die Ausgabe der Druckdauer (die sich aus Sekunden errechnet)
+	$secs = floatval($secs);
     $seconds = floor($secs % 60);
 	$minutes = floor($secs / 60 % 60);
 	$hours = floor($secs / 3600);

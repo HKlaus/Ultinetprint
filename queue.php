@@ -10,7 +10,7 @@ include_once 'breadcrumbs/check_rights.php';
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Druckaufträge verwalten</title>
+        <title>Druckerqueue verwalten</title>
         <link rel="stylesheet" href="styles/main.css" />
         <link rel="stylesheet" href="styles/manage.css" />
         <script type="text/JavaScript" src="js/radiobutton.js"></script> 
