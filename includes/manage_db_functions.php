@@ -14,17 +14,17 @@ function show_users($mysqli) {
     if ($stmt = $mysqli->query("SELECT id, email, level, active, rights FROM users")) {
         // hole Variablen von result.
         while ($row = $stmt->fetch_row()){
-			$level_img = "<img src='images/rang_hoch.png' alt='Nein'>";
-			$rights_img = "<img src='images/löschen.png' alt='Nein'>";
-			$active_img = "<img src='images/inaktiv.png' alt='Inaktiv'>";
+			$level_img = "<img src='images/rang_hoch.png' alt='Nein' title='Zum Betreuer befördern'>";
+			$rights_img = "<img src='images/löschen.png' alt='Nein' title='Druck Rechte erteilen'>";
+			$active_img = "<img src='images/inaktiv.png' alt='Inaktiv' title='Account akvitieren'>";
 			if ($row[2] > 0) { 
-				$level_img = "<img src='images/erfolg.png' alt='Ja'>";
+				$level_img = "<img src='images/erfolg.png' alt='Ja' title='Betreuer Rechte entziehen'>";
 			}
 			if ($row[3] > 0) {
-				$active_img = "<img src='images/erfolg.png' alt='Aktiv'>";
+				$active_img = "<img src='images/erfolg.png' alt='Aktiv' title='Account deakvitieren'>";
 			}
 			if ($row[4] > 0) { 
-				$rights_img = "<img src='images/erfolg.png' alt='Ja'>";
+				$rights_img = "<img src='images/erfolg.png' alt='Ja' title= 'Druck Rechte entziehen'>";
 			}
 			// gebe Benutzer zeilenweiße aus 
 			echo "<div class='row'><div class='inline' id='id'>" . $row[0] . 
@@ -44,7 +44,7 @@ function show_users($mysqli) {
 
 function show_files($mysqli) {		// Zeige alle druckbaren Dateien aus Warteschlange an
 	// gibt die Tabellenbeschriftung aus
-	echo "<div class='row'><div class='inline' id='user'><b>Benutzer</b>
+	echo "<div class='row'><div class='inline' id='user'><b>Von</b>
 	</div><div class='inline' id='file_name'><b>Datei</b>
 	</div><div class='inline' id='date'><b>Erstelldatum</b>
 	</div><div class='inline' id='print_time'><b>Dauer</b>
@@ -84,14 +84,14 @@ function show_prints($mysqli) {		// Zeige alle Druckaufträge aus Warteschlange 
 								FROM to_print 
 								INNER JOIN users ON to_print.user_id=users.id 
 								INNER JOIN available_prints on available_prints.id=to_print.file_id
-								ORDER BY to_print.priority DESC, time DESC")) {
+								ORDER BY to_print.priority DESC, cast(available_prints.print_time AS unsigned) ASC")) {
         // hole Variablen von result.
         while ($row = $stmt->fetch_row()){
 			$delete_img = "<img title='Löschen' src='images/löschen.png' alt='Nein'>";
-			$priority_img = "<img title='Priorität' src='images/stern.png' alt='*'>";
+			$priority_img = "<img title='Priorität' src='images/stern2.png' alt='*'>";
 			$priority_minus_img = "<img title='Priorität senken' src='images/minus.png' alt='-'>";
 			$priority_plus_img = "<img title='Priorität erhöhen' src='images/plus.png' alt='+'>";
-		if ($row[4] < 1) $row[4] = 0;
+			if ($row[4] < 1) $row[4] = 0;
 			// gebe Aufträge zeilenweiße aus 
 			echo "<div class='row'><div class='inline' id='user'>" . substr($row[0], 0, strpos($row[0], "@")) . 		// Gebe Benutzer ohne Email-Endung an
 			     "</div><div class='inline' id='file_name'>" . substr($row[3], 0, strpos($row[3], ".gcode")) . 			// Gebe Dateiname ohne gcode-Endung an
@@ -316,6 +316,28 @@ function prio_minus($mysqli, $print_id) {		// Senke Priorität des ausgewählten
 		}
 	}
 }
+
+// Verwalte Mails Funktionen
+
+function new_mail($mysqli, $print_id, $at, $to, $file, $event) {
+	if ($insert_stmt = $mysqli->prepare("INSERT INTO mails (`print_id`, `at`, `to`, `file`, `event`) VALUES (?, ?, ?, ?, ?)")) {
+		$insert_stmt->bind_param('iisss', $print_id, $at, $to, $file, $event);
+		// Führe die vorbereitete Anfrage aus.
+		if (!$insert_stmt->execute()) {
+			header('Location: ../error.php?err=Druck Fehler: INSERT mails');
+		}
+	}
+}
+function delete_mail($mysqli, $print_id) {
+	if ($insert_stmt = $mysqli->prepare("DELETE FROM mails WHERE print_id = ?")) {
+		$insert_stmt->bind_param('i', $print_id);
+		// Führe die vorbereitete Anfrage aus.
+		if (!$insert_stmt->execute()) {
+			header('Location: ../error.php?err=Druck Fehler: DELETE mails');
+		}
+	}
+}
+
 
 //
 //	Log Funktionen

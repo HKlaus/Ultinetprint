@@ -10,6 +10,7 @@ include_once 'includes/functions.php';
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script>
         <link rel="stylesheet" href="styles/main.css" />
+        <link rel="stylesheet" href="styles/input.css" />
         <link rel="stylesheet" href="styles/register.css" />
     </head>
     <body>
@@ -49,7 +50,7 @@ include_once 'includes/functions.php';
 						placeholder="Passwort wiederholen"
 						name="confirmpwd" 
 						id="confirmpwd" /><br>
-				<input type="button" style="float: right; margin-top: 20px;"
+				<input type="button" style="float: right; margin-top: 10px;"
 					   value="Registrieren" 
 					   onclick="return regformhash(this.form,
 									   this.form.email,

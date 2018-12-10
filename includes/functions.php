@@ -278,8 +278,11 @@ function esc_url($url) {
 
 function seconds_to_time($secs) {		// Für die Ausgabe der Druckdauer (die sich aus Sekunden errechnet)
 	$secs = floatval($secs);
-    $seconds = floor($secs % 60);
+    //$seconds = floor($secs % 60);
 	$minutes = floor($secs / 60 % 60);
 	$hours = floor($secs / 3600);
-	return $hours . ":" . $minutes . ":" . $seconds;
+	
+	if ($minutes < 10) $minutes = "0" . $minutes;
+	
+	return $hours . ":" . $minutes;
 }

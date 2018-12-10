@@ -1,1 +1,1 @@
-<div id='back_to_login'>Zurück zum <a href="index.php">Login</a>.</div>
+<div id='back_to_login'><a href="index.php">Zurück</a>.</div>

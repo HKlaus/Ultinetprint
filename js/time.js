@@ -15,6 +15,8 @@ function timer(time) {
 		  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+	//	  if (seconds < 10) { seconds = "0:" + seconds;
+		  
 		  // Zeige das Resultat an
 		  document.getElementById("timer").innerHTML = "am Drucken: ";
 		  if (days > 0) {

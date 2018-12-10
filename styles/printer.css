@@ -31,9 +31,10 @@ footer {
 	border-radius: 0px;
 	padding: 4px;
 	margin-right: 0px;
+	opacity: 0.87;
 }
 .printer_button_img:hover {
-    #background-color: #eaeaea;
+	opacity: 1;
 }
 .printer_button_img_right {
 	margin-right: 15px;
@@ -42,7 +43,7 @@ footer {
     text-align: right;
 }
 #next_print {
-	padding: 15px;
+	padding:  10px 20px;
 	position: fixed;
 	left: 0;
 	bottom: 0px;

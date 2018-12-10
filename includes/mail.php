@@ -2,8 +2,8 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+require '/var/www/html/PHPMailer/src/PHPMailer.php';
+require '/var/www/html/PHPMailer/src/SMTP.php';
 
 
 
@@ -62,15 +62,13 @@ function send_notify($email, $print, $event) {
 	$mail->addAddress($email, '');
 	//Set the subject line
 	$mail->Subject = 'Ultimaker Benachrichtigung';
-	//Read an HTML message body from an external file, convert referenced images to embedded,
-	//convert HTML into a basic plain-text alternative body
 	$mail->Body = '
 	 
-	Dein Druck '.$print.' wurde um ' . date("H:i") . ' '.$event.'
+	Dein Druck '.$print.' wurde um ' . date("H:i") . ' '.$event.'.
 	 
 	
 	------------------------------------------------------------
-	https://ultinetprint.informatik.hs-furtwangen.de/printer.php
+	https://ultinetprint.informatik.hs-furtwangen.de/
 	 
 	';	// Our message above including the link
 	
