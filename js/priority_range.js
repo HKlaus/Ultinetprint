@@ -1,3 +1,11 @@
+/**
+* Schieberegler-Beschreibung für Druckaufträge, ändert den Wert in nebenstehendem Feld auf einen String
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 function change_prio() {		
 	if (print_file.priority.value == 0) { print_file.numerisch.value = "keine"; }
 	else if (print_file.priority.value == 1) { print_file.numerisch.value = "niedrig"; }

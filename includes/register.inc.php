@@ -1,9 +1,22 @@
 <?php
+/**
+* @author   Tom Lehmann & https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @version  1.0
+* 
+*/
+
 include_once 'db_connect.php';
 include_once 'mail.php';
  
 $error_msg = "";
  
+/**
+* Führt die Registrierung durch
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	yes
+*/
 if (isset($_POST['email'], $_POST['p'])) {	
     // Bereinige und überprüfe die Daten
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -14,7 +27,7 @@ if (isset($_POST['email'], $_POST['p'])) {
         $error_msg .= '<p class="error">Die Email-Adresse ist ungültig.</p>';
     }
  
-	$hfu_pattern = "/@hs-furtwangen\.de/";
+	$hfu_pattern = "/@hs-furtwangen\.de/";				// Mit diesem Regex-Ausdruck wird überprüft ob die Email eine gültige Endung hat
 	if (!preg_match($hfu_pattern, $email)) {
 		// keine HFU E-Mail
 		$error_msg .= '<p class="error">Keine gültige HFU Email-Adresse.</p>';
@@ -30,8 +43,7 @@ if (isset($_POST['email'], $_POST['p'])) {
     // Das Passwort wurde auf der Benutzer-Seite schon überprüft.
     // Das sollte genügen, denn niemand hat einen Vorteil, wenn diese Regel   
     // verletzt wird.
-    //
- 
+	
     $prep_stmt = "SELECT id FROM users WHERE email = ? LIMIT 1";
     $stmt = $mysqli->prepare($prep_stmt);
  
@@ -50,8 +62,8 @@ if (isset($_POST['email'], $_POST['p'])) {
  
     if (empty($error_msg)) {
 		$active = "0";	// Account standardmäßig deaktiviert bis Email Verifikation
-		$level = "0";	// Benutzer-Level standardmäßig auf 0
-		$rights = "0";	// Benutzer-Rechte standardmäßig auf 0
+		$level = "0";	// Betreuer-Level standardmäßig auf 0
+		$rights = "0";	// Druck-Rechte standardmäßig auf 0
 		
         // Erstelle ein zufälliges Salt
         $random_salt = hash('sha512', uniqid(openssl_random_pseudo_bytes(16), TRUE));

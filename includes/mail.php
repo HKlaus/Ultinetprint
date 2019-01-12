@@ -1,27 +1,37 @@
 <?php
+/**
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
 
-use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;							// PHPMailer aus dem Github Projekt https://github.com/PHPMailer/PHPMailer
 
 require '/var/www/html/PHPMailer/src/PHPMailer.php';
 require '/var/www/html/PHPMailer/src/SMTP.php';
 
-
-
+/**
+* Sendet eine Accunt-Aktivierungs Email über den SMTP Server
+*
+* @author Tom Lehmann & https://code.tutsplus.com/tutorials/how-to-implement-email-verification-for-new-members--net-3824
+*
+* modified yes
+*
+* @param string $email 	Die Email-Adresse des zu aktivierenden Accounts
+* @param string	$hash 	Ein zufälliger Hash für den Aktivierungslink, in diesem Fall den SHA-512 Passwort hash
+*
+*/
 function send_verify($email, $hash) {
-	//Create a new PHPMailer instance
-	$mail = new PHPMailer;
+	$mail = new PHPMailer;				// Initialisiere eine neue PHPMailer Instanz
 	
-	$mail->isSMTP();
-	$mail->Host = 'localhost';
+	$mail->isSMTP();					// Setze Protokoll auf SMTP
+	$mail->Host = 'localhost';			// Benutze lokalen SMTP Server
 	
-	//Set who the message is to be sent from
-	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');
-	//Set who the message is to be sent to
-	$mail->addAddress($email, '');
-	//Set the subject line
-	$mail->Subject = 'Ultimaker Account Aktivierung';
-	//Read an HTML message body from an external file, convert referenced images to embedded,
-	//convert HTML into a basic plain-text alternative body
+	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');		// Setze Absender auf "noreply"
+	$mail->addAddress($email, '');												// Setze Empfänger
+	$mail->Subject = 'Ultimaker Account Aktivierung';							// Setze Betreff
+	
 	$mail->Body = '
 	 
 	Vielen Dank fuer die Regsitrierung!
@@ -37,47 +47,55 @@ function send_verify($email, $hash) {
 	Bitte klicke auf diesen Link um den Account zu aktivieren:
 	https://ultinetprint.informatik.hs-furtwangen.de/verify.php?email='.$email.'&hash='.$hash.'
 	 
-	';	// Our message above including the link
-	
-	//send the message, check for errors
-	
+	';	// Der Inhalt der Nachricht mit dem Aktivierungslink
+		
 	if (!$mail->send()) {
-		echo "Mailer Error: " . $mail->ErrorInfo;
+		echo "Mailer Error: " . $mail->ErrorInfo;			// Wenn die Email nicht erfolgreich versendet wurde, gib den Fehler aus
 	} else {
-		header('Location: ./index.php?success=1');
+		header('Location: ./index.php?success=1');			// Falls doch, leite auf die "Erfolg"-Seite auf der Indexseite weiter
 	}
 }
 
+/**
+* Sendet eine Email-Benachrichtigung über den SMTP Server
+*
+* @author Tom Lehmann
+*
+* @param string $email 	Die Email-Adresse des zu aktivierenden Accounts
+* @param string	$print	Der Name des Drucks über den benachrichtigt wird
+* @param string	$event	Das Ereignis über das benachrichtigt wird
+*
+*/
 function send_notify($email, $print, $event) {
+	if ($event == "fertiggestellt") {
+		$notify = " wurde fertiggestellt und sollte nun entnommen werden.
+	(Nicht vergessen, den darauf folgenden Druck zu starten)";
+	} elseif ($event == "druckbereit") {
+		$notify = " kann nun eingerichtet und daraufhin gestartet werden.
+	(Nicht vergessen, den vorherigen Druck sauber zu entfernen)";
+	} else {
+		$notify = $event;
+	}
 	
-	//Create a new PHPMailer instance
 	$mail = new PHPMailer;
 	
 	$mail->isSMTP();
 	$mail->Host = 'localhost';
 	
-	//Set who the message is to be sent from
 	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');
-	//Set who the message is to be sent to
 	$mail->addAddress($email, '');
-	//Set the subject line
 	$mail->Subject = 'Ultimaker Benachrichtigung';
 	$mail->Body = '
 	 
-	Dein Druck '.$print.' wurde um ' . date("H:i") . ' '.$event.'.
+	Der Druck ' . $print . $notify . '
 	 
 	
 	------------------------------------------------------------
 	https://ultinetprint.informatik.hs-furtwangen.de/
 	 
-	';	// Our message above including the link
-	
-	//send the message, check for errors
+	';
 	
 	if (!$mail->send()) {
 		echo "Mailer Error: " . $mail->ErrorInfo;
-	} else {
-	//	header('Location: ./index.php?success=1');
-		echo "erfolgreich";
-	}
+	} 
 }

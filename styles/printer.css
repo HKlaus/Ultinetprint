@@ -1,4 +1,10 @@
-* {}
+/**
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 footer {
    position: fixed;
    left: 0;
@@ -9,18 +15,6 @@ footer {
    color: white;
    text-align: right;
    border-radius: 0px 8px 0px 0px;
-}
-.right_value select {
-    width: 80%;
-}
-.left_value {
-    float: left;
-	color: #f0f0f0;
-}
-.line {
-	padding: 17px 35px;
-	border-bottom: 1px solid #dedede;
-	
 }
 .printer_button {
     display: none;
@@ -38,9 +32,6 @@ footer {
 }
 .printer_button_img_right {
 	margin-right: 15px;
-}
-.right_value {
-    text-align: right;
 }
 #next_print {
 	padding:  10px 20px;

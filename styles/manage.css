@@ -1,3 +1,10 @@
+/**
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 label {
     cursor: pointer;
 }
@@ -50,7 +57,7 @@ label img:hover {
     padding: 0;
 }
 #file_name {
-	min-width: 42%;
+	min-width: 40%;
 	margin-left: 50px;
 }
 #id {
@@ -66,7 +73,7 @@ label img:hover {
 	text-align: right;
 }
 #priority {
-	width: 270px;
+	width: 230px;
 }
 #date {
 	width: 200px;
@@ -74,7 +81,8 @@ label img:hover {
 #users {
 }
 #user {
-	width: 150px;
+	width: 180px;
+	margin-left: 20px
 }
 #user_action {
 	float: right;

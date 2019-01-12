@@ -1,4 +1,11 @@
-/* Styling des Upload-Inputs */
+/**
+* Styling des Upload-Inputs 
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 input[type=button], input[type=submit], input[type=reset] {
     background-color: #03b670;
 	color: white;
@@ -28,12 +35,16 @@ input[type=button], input[type=submit], input[type=reset] {
     outline: -webkit-focus-ring-color auto 5px;
 }
 
-/* Source: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/ */
+/**
+*
+* @author   https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+* 
+*/
 
 input[type=range] {
-  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 200px; /* Specific width is required for Firefox. */
-  background: transparent; /* Otherwise white in Chrome */
+  -webkit-appearance: none; 	/* Hides the slider so that custom slider can be made */
+  width: 200px; 				/* Specific width is required for Firefox. */
+  background: transparent; 		/* Otherwise white in Chrome */
   cursor: pointer;
 }
 
@@ -42,7 +53,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 input[type=range]:focus {
-  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  outline: none; 				/* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
 
 input[type=range]::-ms-track {

@@ -1,4 +1,10 @@
-/* Source: https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ */
+/**
+* Erstellt einen benutzerdefinierten Upload-Knopf
+* 
+* @author https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+*
+* @modified	no
+*/
 
 var inputs = document.querySelectorAll( '.inputfile' );
 Array.prototype.forEach.call( inputs, function( input )

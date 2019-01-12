@@ -1,5 +1,16 @@
+/**
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
+h1 {
+    font-size: 30px;
+}
 li {
-    padding: 5px;
+    padding: 5px 0px;
+	list-style: url(../images/listpoint.png);
 }
 
 #email {
@@ -14,7 +25,6 @@ li {
     width: 98%;
 	text-align: center;
 }
-
 #register {
     background-color: #c8c8c8;
 	padding: 50px 120px;

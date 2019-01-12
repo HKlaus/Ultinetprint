@@ -1,4 +1,12 @@
 <?php
+/**
+* Registrationsseite
+*
+* @author   Tom Lehmann & https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @version  1.0
+* 
+*/
+
 include_once 'includes/register.inc.php';
 include_once 'includes/functions.php';
 ?>
@@ -26,7 +34,7 @@ include_once 'includes/functions.php';
 			<ul>
 				<li>E-Mail-Adressen müssen ein gültiges Format haben.</li>
 				<li>E-Mail-Adressen müssen HFU Endung haben (@hs-furtwangen.de).</li>
-				<li>Passwörter müssen mindestens sechs Zeichen lang sein.</li>
+				<li>Passwörter müssen mindestens acht Zeichen lang sein.</li>
 				<li>Passwörter müssen enthalten
 					<ul>
 						<li>mindestens einen Großbuchstaben (A..Z)</li>
@@ -50,7 +58,7 @@ include_once 'includes/functions.php';
 						placeholder="Passwort wiederholen"
 						name="confirmpwd" 
 						id="confirmpwd" /><br>
-				<input type="button" style="float: right; margin-top: 10px;"
+				<input type="button" style="float:right;margin-top:10px;"
 					   value="Registrieren" 
 					   onclick="return regformhash(this.form,
 									   this.form.email,

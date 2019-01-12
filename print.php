@@ -1,6 +1,15 @@
 <?php
+/**
+* Seite der Druckauftragsverwaltung
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
+include_once 'includes/format.php';
 include_once 'includes/manage_db_functions.php';
 
 sec_session_start();
@@ -17,8 +26,9 @@ include_once 'includes/manage_prints_functions.php';
         <link rel="stylesheet" href="styles/manage.css" />
         <link rel="stylesheet" href="styles/printer.css" />
         <link rel="stylesheet" href="styles/input.css" />
-        <script type="text/JavaScript" src="js/radiobutton.js"></script> 
-        <script type="text/JavaScript" src="js/priority_range.js"></script> 
+        <link rel="stylesheet" href="styles/loading.css" />
+        <script type="text/JavaScript" src="js/priority_range.js"></script>
+		<script type="text/JavaScript" src="js/loading.js"></script>
     </head>
     <body>
 	<?php include 'breadcrumbs/logged_in_as.php'; ?>
@@ -53,7 +63,7 @@ include_once 'includes/manage_prints_functions.php';
 						Druckauftrag einreihen
 					</div>
 					<div class='right_value'>
-						Priorität: <output name="numerisch">niedrig</output><input type="range" name="priority" min="0" max="<?php // Falls Benutzer Betreuerrechte hat darf er höhere Prioritäten einstellen
+						Priorität: <output name="numerisch">niedrig</output><input type="range" name="priority" min="0" max="<?php 	// Falls Benutzer Betreuerrechte hat darf er höhere Prioritäten einstellen
 						if($admin == 'angemeldet') { echo '4"'; } else { echo '2"'; } if(!$printrighted) { echo "disabled=\"disabled\""; }	?> value="1">	
 					</div>
 				</div>
@@ -61,6 +71,10 @@ include_once 'includes/manage_prints_functions.php';
 			</form>
 		</div>
 	&nbsp;</div>
-	<?php include 'breadcrumbs/logout.htm'; ?>
+	
+	<!-- Für Lade-Anzeige -->
+	<div class="loading style-2" id="loading">Wird geladen...<div class="loading-wheel"></div></div>
+	
+	<?php include 'breadcrumbs/logout.php'; ?>
 	</body>
 </html>

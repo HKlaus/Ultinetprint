@@ -1,4 +1,12 @@
 <?php
+/**
+* Index-Seite, wird aufgerufen wenn man die Website besucht
+* Bietet die Möglichkeit sich einzuloggen
+*
+* @author   Tom Lehmann & https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @version  1.0
+* 
+*/
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
  
@@ -15,9 +23,10 @@ include_once 'breadcrumbs/check_rights.php';
         <link rel="stylesheet" href="styles/index.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
+        <script type="text/JavaScript" src="js/cookie.js"></script> 
     </head>
     <body>
-        <?php
+        <?php																			// Handling der Weiterleitung mittels GET-Paramter
         if (isset($_GET['success'])) {
 			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Logge dich nun ein:</div>'; }
 		}
@@ -29,17 +38,16 @@ include_once 'breadcrumbs/check_rights.php';
 			else { echo '<div id="response">Unbekannter Fehler beim einloggen!</div>'; }
         } ?> 
 		<?php include 'breadcrumbs/logged_in_as.php'; 
-		if ($logged == "abgemeldet") { 			// Sofern Benutzer nicht eingeloggt ist, gib ihm die Möglichkeit
+		if ($logged == "abgemeldet") { 													// Sofern Benutzer nicht eingeloggt ist, gib ihm die Möglichkeit
 			echo "	<div id='background'>
 					<form action='includes/process_login.php' method='post' name='login_form' id='login_form'>                      
-						<input type='text' name='email' id='email' placeholder='Email-Adresse'/>
-						<br><input type='password' name='password' id='password' placeholder='Passwort'/>
-						<input type='button'
-							   value='Login' 
-							   onclick='formhash(this.form, this.form.password);' /> 
+						<input type='text' name='email' id='email' placeholder='Benutzer' />
+						<br><input type='password' name='password' id='password' placeholder='Passwort' />
+						<input type='button' value='Login' onclick='formhash(this.form, this.form.password); setCookie(this.form.email.value);' /> 
 					</form>";
-			include 'breadcrumbs/registrieren.htm';
-		} else if ($logged == "angemeldet") header('Location: ../printer.php');
-		 ?>
+			include 'breadcrumbs/registrieren.php';
+		} else if ($logged == "angemeldet") header('Location: ../printer.php');			// Sofern Benutzer eingeloggt, leite direkt auf die Druckerseite weiter
+		?>
+		<div id='impressum'><a href='impressum.php'>Impressum</a>.</div>
     </body>
 </html>

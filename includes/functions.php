@@ -1,5 +1,20 @@
 <?php
- 
+/**
+* Diese Datei enthält hauptsächlich die Funktionen zur Überprüfung ob ein Benutzer berechtigt ist etwas zu tun 
+* und stammt zum allergrößten Teil von der in der @author-Annotation erwähnten Website
+*
+* @author   Tom Lehmann & https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @version  1.0
+* 
+*/
+
+/**
+* Erstellt eine sichere Sitzung
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	no
+*/
 function sec_session_start() {
     $session_name = 'sec_session_id';   // vergib einen Sessionnamen
     $secure = true;
@@ -23,17 +38,30 @@ function sec_session_start() {
     session_regenerate_id();    // Erneuert die Session, löscht die alte. 
 }
 
+/**
+* Loggt einen Benuter über seine E-Mail/Passwort Kombination ein
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	yes
+*
+* @param string	 $email		E-Mail Adresse des einzuloggenden Benutzers
+* @param string  $password	Das Passwort des einzuloggenden Benutzers
+* @param mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return int               0 steht für einen erfolgreichen Login
+*							1 heißt das Konto ist blockiert
+*							2 heißt das Passwort ist nicht korrekt
+*							3 heißt es gibt den Benutzer nicht
+*/
 function login($email, $password, $mysqli) {
-	$hfu_pattern = "/@hs-furtwangen\.de/";
-	if (!preg_match($hfu_pattern, $email)) {
+	$hfu_pattern = "/@hs-furtwangen\.de/";				// Preg-Match Pattern für die HFU-Mail
+	if (!preg_match($hfu_pattern, $email)) {			
 		// keine HFU E-Mail sondern nur Benutzername
-		$email = $email . "@hs-furtwangen.de";
+		$email = $email . "@hs-furtwangen.de";			// Dies erlaubt beim Login-Namen den "@hs-furtwangen.de"-Teil auszulassen
 	}
     // Das Benutzen vorbereiteter Statements verhindert SQL-Injektion.
-    if ($stmt = $mysqli->prepare("SELECT id, password, salt
-        FROM users
-       WHERE email = ?
-	LIMIT 1")) {
+    if ($stmt = $mysqli->prepare("SELECT id, password, salt FROM users WHERE email = ? LIMIT 1")) {
         $stmt->bind_param('s', $email);  // Bind "$email" to parameter.
         $stmt->execute();    // Führe die vorbereitete Anfrage aus.
         $stmt->store_result();
@@ -61,16 +89,14 @@ function login($email, $password, $mysqli) {
                     // XSS-Schutz, denn eventuell wir der Wert gedruckt
                     $user_id = preg_replace("/[^0-9]+/", "", $user_id);
                     $_SESSION['user_id'] = $user_id;
-                    $_SESSION['login_string'] = hash('sha512',
-                              $password . $user_browser);
+                    $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
                     // Login erfolgreich.
                     return 0;
                 } else {
                     // Passwort ist nicht korrekt
                     // Der Versuch wird in der Datenbank gespeichert
                     $now = time();
-                    $mysqli->query("INSERT INTO login_attempts(user_id, time)
-                                    VALUES ('$user_id', '$now')");
+                    $mysqli->query("INSERT INTO login_attempts(user_id, time) VALUES ('$user_id', '$now')");
                     return 2;
                 }
             }
@@ -81,6 +107,18 @@ function login($email, $password, $mysqli) {
     }
 }
 
+/**
+* Überprüft ob ein Konto 5 oder mehr erfolglose Login-Versuche in den letzten 2 Stunden hat
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	no
+*
+* @param int	 $user_id	Eindeutige Benutzer-ID
+* @param mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return bool
+*/
 function checkbrute($user_id, $mysqli) {
     // Hole den aktuellen Zeitstempel
     $now = time();
@@ -88,10 +126,7 @@ function checkbrute($user_id, $mysqli) {
     // Alle Login-Versuche der letzten zwei Stunden werden gezählt.
     $valid_attempts = $now - (2 * 60 * 60);
 
-    if ($stmt = $mysqli->prepare("SELECT time
-                             FROM login_attempts
-                             WHERE user_id = ?
-                            AND time > '$valid_attempts'")) {
+    if ($stmt = $mysqli->prepare("SELECT time FROM login_attempts WHERE user_id = ? AND time > '$valid_attempts'")) {
         $stmt->bind_param('i', $user_id);
 
         // Führe die vorbereitet Abfrage aus.
@@ -102,15 +137,25 @@ function checkbrute($user_id, $mysqli) {
         if ($stmt->num_rows > 5) {
             return true;
         } else {
-            return false;
+            return false;	
         }
     }
 }
 
+/**
+* Überprüft ob ein Benutzer eingeloggt ist 
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	yes
+*
+* @param mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return int	 $user_id	Die eindeutige Benutzer-ID, falls 0 zurück gegeben wird ist der Benutzer nicht eingeloggt
+*/
 function login_check($mysqli) {
     // Überprüfe, ob alle Session-Variablen gesetzt sind
-    if (isset($_SESSION['user_id'],
-                        $_SESSION['login_string'])) {
+    if (isset($_SESSION['user_id'], $_SESSION['login_string'])) {
 
         $user_id = $_SESSION['user_id'];
         $login_string = $_SESSION['login_string'];
@@ -118,9 +163,7 @@ function login_check($mysqli) {
         // Hole den user-agent string des Benutzers.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-        if ($stmt = $mysqli->prepare("SELECT password
-                                      FROM users
-                                      WHERE id = ? LIMIT 1")) {
+        if ($stmt = $mysqli->prepare("SELECT password FROM users WHERE id = ? LIMIT 1")) {
             // Bind "$user_id" zum Parameter.
             $stmt->bind_param('i', $user_id);
             $stmt->execute();   // Führe das prepared-Statement aus
@@ -153,6 +196,15 @@ function login_check($mysqli) {
     }
 }
 
+/**
+* Überprüft ob ein Benutzer Betreuer-Rechte hat
+* 
+* @author Tom Lehmann
+*
+* @param 	mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return 	int 	$level	Gibt das Betreuer-Level zurück
+*/
 function admin_check($mysqli) {	//überprüfe ob angemeldeter Benutzer höhere Rechte hat
 	if (isset($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
@@ -171,6 +223,15 @@ function admin_check($mysqli) {	//überprüfe ob angemeldeter Benutzer höhere R
 	}
 }
 
+/**
+* Überprüft ob ein Benutzer-Account schon aktiviert ist
+* 
+* @author Tom Lehmann
+*
+* @param 	mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return 	bool 	$active	Gibt zurück ob ein Account aktiviert ist
+*/
 function active_check($mysqli) {	//überprüfe ob angemeldeter Benutzer einen aktivierten Account hat
 	if (isset($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
@@ -189,6 +250,15 @@ function active_check($mysqli) {	//überprüfe ob angemeldeter Benutzer einen ak
 	}
 }
 
+/**
+* Überprüft ob ein Benutzer Druck-Rechte hat
+* 
+* @author Tom Lehmann
+*
+* @param 	mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return 	bool 	$rights	Gibt die Druckrechte zurück
+*/
 function printrights_check($mysqli) {	//überprüfe ob angemeldeter Benutzer einen aktivierten Account hat
 	if (isset($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
@@ -207,7 +277,16 @@ function printrights_check($mysqli) {	//überprüfe ob angemeldeter Benutzer ein
 	}
 }
 
-function email_check($mysqli) {	//überprüfe Email Adresse von angemeldetem Benutzer
+/**
+* Überprüft die Email-Adresse des Benutzers
+* 
+* @author Tom Lehmann
+*
+* @param 	mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return 	string 	$email	Gibt die Email zurück
+*/
+function email_check($mysqli) {	
 	if (isset($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
 		if ($stmt = $mysqli->prepare("SELECT email FROM users WHERE id = ? LIMIT 1")) {
@@ -220,17 +299,24 @@ function email_check($mysqli) {	//überprüfe Email Adresse von angemeldetem Ben
 				$stmt->bind_result($email);
 				$stmt->fetch();
 				return $email;
-			}
+			} else return false;
 		}
 	}
 }
 
+
+/**
+* Überprüft ob es ein ID/Key Paar für die Authentifizierung beim 3D-Drucker gibt
+* 
+* @author Tom Lehmann
+*
+* @param 	mysqli  $mysqli	Die zur Überprufung zu verwendende MYSQLi Verbindung
+*
+* @return 	array 	
+*/
 function req_auth($mysqli) {
-	// Hole ID/Key Paar der HTTP Digest Authentifizierung
 	$id = 1;	// falls irgendwann mehrere ID/Key Paare existieren (z.B. bei mehreren Druckern)
-	if ($stmt = $mysqli->prepare("SELECT auth_id, auth_key
-                                      FROM ultimaker_authentification
-                                      WHERE id = ? LIMIT 1")) {
+	if ($stmt = $mysqli->prepare("SELECT auth_id, auth_key FROM ultimaker_authentification WHERE id = ? LIMIT 1")) {
         $stmt->bind_param('i', $id);
 		$stmt->execute();   // Führe das prepared-Statement aus
         $stmt->store_result();
@@ -245,6 +331,13 @@ function req_auth($mysqli) {
 	}
 }
 
+/**
+* Escaped einen URL-String
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	no
+*/
 function esc_url($url) {
 
     if ('' == $url) {
@@ -274,15 +367,4 @@ function esc_url($url) {
     } else {
         return $url;
     }
-}
-
-function seconds_to_time($secs) {		// Für die Ausgabe der Druckdauer (die sich aus Sekunden errechnet)
-	$secs = floatval($secs);
-    //$seconds = floor($secs % 60);
-	$minutes = floor($secs / 60 % 60);
-	$hours = floor($secs / 3600);
-	
-	if ($minutes < 10) $minutes = "0" . $minutes;
-	
-	return $hours . ":" . $minutes;
 }

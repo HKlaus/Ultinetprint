@@ -1,13 +1,27 @@
 <?php
+/**
+* Seite der Email-Verifikation
+*
+* @author   Tom Lehmann & https://code.tutsplus.com/tutorials/how-to-implement-email-verification-for-new-members--net-3824
+* @version  1.0
+* 
+*/
+
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 sec_session_start();
 
+/**
+* Prüft Email und Hash und aktiviert bei Korrektheit den Account
+* 
+* @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+*
+* @modified	yes
+*/
 if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !empty($_GET['hash'])){
-	// Verify data
-	$email = mysqli_escape_string($mysqli, $_GET['email']); // Set email variable
-	$hash = mysqli_escape_string($mysqli, $_GET['hash']); // Set hash variable
+	$email = mysqli_escape_string($mysqli, $_GET['email']); 
+	$hash = mysqli_escape_string($mysqli, $_GET['hash']); 
 	$search = mysqli_query($mysqli, "SELECT email, password, active FROM users WHERE email='".$email."' AND password='".$hash."' AND active='0'"); 
 	$match  = mysqli_num_rows($search);
 	if($match > 0){

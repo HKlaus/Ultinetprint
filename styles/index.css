@@ -1,7 +1,23 @@
+/**
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
 
 #email {
     width: 300px;
     padding: 15px;
+}
+#impressum {
+	position: fixed;
+	left: 48%;
+	bottom: 0;
+	width: 200px;
+	height: 30px;
+	text-shadow: 0px 0px 5px #868686;
+}
+#impressum:hover {
+	text-shadow: 0px 0px 5px #ddd;
 }
 #password {
     padding: 15px;

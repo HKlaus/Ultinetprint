@@ -1,3 +1,4 @@
+<!-- Die Anzeige über den Login-Status zum einbetten auf Websiten -->
 <div id="logged_in">
 	<span>Hallo 
 	<?php if (admin_check($mysqli)) echo "<b><img id='img' src='images/rang_hoch.png' alt='als Betreuer' title='als Betreuer'> " . email_check($mysqli) ."</b> ";

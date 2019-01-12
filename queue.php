@@ -1,6 +1,15 @@
 <?php
+/**
+* Seite der Druckwarteschlangenverwaltung
+*
+* @author   Tom Lehmann
+* @version  1.0
+* 
+*/
+
 include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
+include_once 'includes/format.php';
 include_once 'includes/manage_db_functions.php';
 include_once 'includes/manage_prints_functions.php';
 
@@ -14,8 +23,6 @@ include_once 'breadcrumbs/check_rights.php';
         <title>Druckerqueue verwalten</title>
         <link rel="stylesheet" href="styles/main.css" />
         <link rel="stylesheet" href="styles/manage.css" />
-        <link rel="stylesheet" href="styles/printer.css" />
-        <script type="text/JavaScript" src="js/radiobutton.js"></script> 
     </head>
     <body>
 	<?php include 'breadcrumbs/logged_in_as.php'; ?>
@@ -25,7 +32,7 @@ include_once 'breadcrumbs/check_rights.php';
 			<div class='line'>
 				<div class='left_value'>Nächster Druck</div>
 				<div class='right_value'> 
-					" . show_next_print($mysqli) . "
+					" . show_next_print($mysqli) . ", wäre bei sofortigem Start fertig um " . calculate_next_print_finish($mysqli) . "
 				</div>
 			</div>"; 
 		?>
@@ -34,7 +41,6 @@ include_once 'breadcrumbs/check_rights.php';
 			<div class='right_value'></div>
 		</div>
 		<div id="prints">
-		
 		<div class='line'>
 			<div class='left_value'>Kriterien für die Auswahl des nächsten Drucks</div>
 			<div class='right_value'>Zuerst gilt die höhere Priorität, danach Drucke die vor <br>17 Uhr fertig werden, ansonsten der längste Druck.</div>
@@ -44,6 +50,6 @@ include_once 'breadcrumbs/check_rights.php';
 		</form>
 		</div>
 	&nbsp;</div>
-	<?php include 'breadcrumbs/logout.htm'; ?>
+	<?php include 'breadcrumbs/logout.php'; ?>
 	</body>
 </html>

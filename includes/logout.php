@@ -1,4 +1,11 @@
 <?php
+/**
+*
+* @author   https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @version  1.0
+* 
+*/
+
 include_once 'functions.php';
 sec_session_start();
  

@@ -1,3 +1,4 @@
+<!-- Das Navigations-Menü zum einbetten auf Websiten -->
 <div id='navigation_bar'>
 	<a href='printer.php'>
 		<div id='nav_printer' class='nav_item'>
@@ -15,7 +16,7 @@
 		</div> 
 	</a>
 	<?php if($admin == 'angemeldet') { echo "
-	<a href='manage.php'>
+	<a href='users.php'>
 		<div id='nav_manage' class='nav_item'>
 		Benutzer
 		</div>
