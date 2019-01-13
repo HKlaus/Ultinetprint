@@ -57,3 +57,6 @@ footer {
 #printer_buttons_disabled {
 	cursor: not-allowed;
 }
+#webcam_switch {
+    display: none;
+}
