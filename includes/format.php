@@ -19,7 +19,7 @@ function str_to_str($string) {
 }
 
 /**
-* Entfernt die Anführungszeichen von einem String des "message"-Teils eines Jsons einer HTTP-Antwort
+* Entfernt die Anführungszeichen des "message"-Teils eines Jsons einer HTTP-Antwort
 *
 * @param  json 	 $message 	Das zu formatierende Json
 *
@@ -28,6 +28,20 @@ function str_to_str($string) {
 */
 function msg_to_str($message) {
 	return str_replace('"', "", json_decode($message)->{'message'});
+}
+
+/**
+* Extrahiert den String des "hotend"->"id"-Teils eines Jsons einer HTTP-Antwort
+*
+* @param  json 	 $message 	Das zu formatierende Json
+*
+* @return string
+* 
+*/
+function msg_id_to_str($message) {
+	$head1 = json_decode($message)[0]->{'extruders'}[0]->{'hotend'}->{'id'};
+	$head2 = json_decode($message)[0]->{'extruders'}[1]->{'hotend'}->{'id'};
+	return $head1 . ' | ' . $head2;
 }
 
 /**

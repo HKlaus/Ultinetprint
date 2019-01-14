@@ -73,7 +73,7 @@ include_once 'includes/manage_prints_functions.php';
 	&nbsp;</div>
 	
 	<!-- Für Lade-Anzeige -->
-	<div class="loading style-2" id="loading">Wird geladen...<div class="loading-wheel"></div></div>
+	<div class="loading style-2" id="loading">Bitte warten, dies kann mehrere Minuten dauern..<div class="loading-wheel"></div></div>
 	
 	<?php include 'breadcrumbs/logout.php'; ?>
 	</body>

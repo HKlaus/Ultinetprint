@@ -68,6 +68,18 @@ function get_printname($ulti) {
 }
 
 /**
+* Gibt die aktuelle Druck-Kopf-Bezeichnung zurück
+*
+* @param Ultimaker3 $ulti 	Der zu verwendende Ultimaker
+*
+* @return string
+´*
+*/
+function get_printhead($ulti) {
+	return "<span id='extruders' title='Druckerdüsen'>" . msg_id_to_str($ulti->get("printer/heads")) . "</span>";
+}
+
+/**
 * Gibt den aktuellen Druckfortschritt zurück
 *
 * @param Ultimaker3 $ulti 	Der zu verwendende Ultimaker

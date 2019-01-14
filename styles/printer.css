@@ -33,6 +33,9 @@ footer {
 .printer_button_img_right {
 	margin-right: 15px;
 }
+#extruders {
+    color: #dedede;
+}
 #next_print {
 	padding:  10px 20px;
 	position: fixed;
@@ -56,6 +59,9 @@ footer {
 }
 #printer_buttons_disabled {
 	cursor: not-allowed;
+}
+#switch {
+	cursor: pointer;
 }
 #webcam_switch {
     display: none;

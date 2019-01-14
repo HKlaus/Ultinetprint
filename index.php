@@ -28,7 +28,7 @@ include_once 'breadcrumbs/check_rights.php';
     <body>
         <?php																			// Handling der Weiterleitung mittels GET-Paramter
         if (isset($_GET['success'])) {
-			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Logge dich nun ein:</div>'; }
+			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Überprüfe dein Postfach auf den Aktivierungslink.</div>'; }
 		}
         if (isset($_GET['error'])) {
 			if ($_GET['error'] == 1) { echo '<div id="response">Fehler beim einloggen: maximale Anzahl an Login Versuche (5)</div>'; }

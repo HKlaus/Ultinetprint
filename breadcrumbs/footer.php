@@ -13,8 +13,9 @@
 */
 include_once 'includes/manage_prints_functions.php';
 
-if (get_status($ulti) == "im Leerlauf" && empty(format_state(get_state($ulti)))) $state = "idle"; 	// Wenn der Drucker am Drucken ist wird der Start-Knopf deaktiviert, sonst der Stopp-Knopf deaktiviert
-else if (get_status($ulti) == "Warte..") $state = "waiting";
+// Wenn der Drucker am Drucken ist wird der Start-Knopf deaktiviert, sonst wird der Stopp-Knopf deaktiviert
+if (get_status($ulti) == "im Leerlauf" && empty(format_state(get_state($ulti)))) $state = "idle";
+else if (get_status($ulti) == "Warte.." and get_state($ulti) != "pre_print") $state = "waiting";
 else $state = "busy";
 if (get_next_print($mysqli)) $has_next_print = true; 
 else $has_next_print = false;

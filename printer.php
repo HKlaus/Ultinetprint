@@ -23,7 +23,9 @@ include_once 'includes/manage_db_functions.php';
 include_once 'includes/manage_printer_functions.php';
 include_once 'includes/manage_prints_functions.php';
 
-if (get_state($ulti) == "pre_print") header("Refresh:60");							// Falls der Drucker gerade den Druck vorbereitet, soll die Seite regelmäßig neu geladen werden
+// Falls der Drucker gerade den Druck vorbereitet, soll die Seite regelmäßig neu geladen werden
+if (get_state($ulti) == "pre_print") header("Refresh:60");
+else echo "asd";
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +49,7 @@ if (get_state($ulti) == "pre_print") header("Refresh:60");							// Falls der Dr
 					<div class='right_value'><b><?php echo get_name($ulti); ?></b></div>
 				</div>
 				<div class='line'>
-					<div class='left_value'></div>
+					<div class='left_value'><?php echo get_printhead($ulti); ?></div>
 					<div class='right_value'><?php echo verify_auth($ulti); ?></div>
 				</div>
 				<div class='line'>

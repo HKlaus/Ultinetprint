@@ -1,6 +1,6 @@
 <?php
 /**
-* @author   Tom Lehmann & https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
+* @author   Tom Lehmann
 * @version  1.0
 * 
 */
@@ -66,7 +66,7 @@ class Ultimaker3 {
 	* Funktionen, die die HTTP-Anfragen an den Drucker senden
 	* 
 	* @param	string	$path	API-Endpunkt
-	* @param 	json	$data	Zu sendende Datenbank
+	* @param 	json	$data	Zu sendende Daten
 	*
 	* @return	json
 	*/
