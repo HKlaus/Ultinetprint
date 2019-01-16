@@ -24,8 +24,7 @@ include_once 'includes/manage_printer_functions.php';
 include_once 'includes/manage_prints_functions.php';
 
 // Falls der Drucker gerade den Druck vorbereitet, soll die Seite regelmäßig neu geladen werden
-if (get_state($ulti) == "pre_print") header("Refresh:60");
-else echo "asd";
+if (get_state($ulti) == "pre_print" or get_state($ulti) == "none") header("Refresh:60");
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,7 +40,7 @@ else echo "asd";
     </head>
     <body>
 		<?php include 'breadcrumbs/logged_in_as.php'; ?>
-		<?php include 'breadcrumbs/navigation.php'; echo get_state($ulti);?>
+		<?php include 'breadcrumbs/navigation.php'; ?>
 		
 		<div id="background">
 				<div class='line'>

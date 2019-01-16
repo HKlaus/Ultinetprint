@@ -48,16 +48,16 @@ if (isset($_POST['start_button'])) {
 						if (!$stmt->execute()) {
 							header('Location: ../error.php?err=Druck Fehler: UPDATE current_print_owner');
 						}
-						if ($stmt = $mysqli->prepare("DELETE FROM to_print WHERE to_print.id = ?")) {						// Entferne den Druck aus der Warteschlange
+						if ($stmt = $mysqli->prepare("DELETE FROM to_print WHERE to_print.id = ?")) {					// Entferne den Druck aus der Warteschlange
 							$stmt->bind_param('i', $next_print[8]);
 							if (!$stmt->execute()) {
 								header('Location: ../error.php?err=Druck Fehler: DELETE to_print');
 							}
 							if($ulti->post_file($next_print[3])) {														// Wenn der Druck korrekt gestartet wird, erstelle Emails in DB
-								$expected_finish = time() + floatval($next_print[5]) + 60 * 3;							// 60 * 3 simuliert die 3 Minuten die der Drucker ca. benötigt um Aufzuheizen
+								$expected_finish = time() + (floatval($next_print[5]) * 1.03) + 60 * 2;					// 60 * 2 simuliert die 2 Minuten die der Drucker ca. benötigt um Aufzuheizen, 3% für die Abweichungen
 								new_mail($mysqli, $next_print[8], time(), $next_print[0], $next_print[3], " durch den Benutzer " . $ulti->get_user()->get_user_email() . " gestartet, erwartete Fertigstellung: ca. " . date("H:i \U\h\\r\, \a\m d.m", $expected_finish));
 								new_mail($mysqli, $next_print[8], $expected_finish, $next_print[0], $next_print[3], "fertiggestellt");
-								if (!empty($over_next_print = get_next_print($mysqli))) {									// Wenn es einen übernächsten Druck gibt, erstelle für den Besitzer eine Benachrichtigung
+								if (!empty($over_next_print = get_next_print($mysqli))) {								// Wenn es einen übernächsten Druck gibt, erstelle für den Besitzer eine Benachrichtigung
 									new_mail($mysqli, $next_print[8], $expected_finish, $over_next_print[0], $over_next_print[3], "druckbereit");
 								}
 							}

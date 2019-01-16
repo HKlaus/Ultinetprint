@@ -69,10 +69,10 @@ function send_verify($email, $hash) {
 function send_notify($email, $print, $event) {
 	if ($event == "fertiggestellt") {
 		$notify = " wurde fertiggestellt und sollte nun entnommen werden.
-	(Nicht vergessen, den darauf folgenden Druck zu starten)";
+	(Nicht vergessen, ggfs. den darauf folgenden Druck zu starten)";
 	} elseif ($event == "druckbereit") {
 		$notify = " kann nun eingerichtet und daraufhin gestartet werden.
-	(Nicht vergessen, den vorherigen Druck sauber zu entfernen)";
+	(Nicht vergessen, ggfs. den vorherigen Druck sauber zu entfernen)";
 	} else {
 		$notify = $event;
 	}

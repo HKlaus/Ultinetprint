@@ -442,15 +442,15 @@ function prio_minus($mysqli, $print_id) {
 *
 * @param mysqli		$mysqli 	Die zu verwendende Datenbankverbindung für die MYSQL Abfragen
 * @param int		$print_id	Die eindeutige Druck-ID des Druckauftrags
-* @param int		$at			Sendedatum
-* @param int		$to			Empfängeradresse
-* @param int		$file		Dateinamen des Druckauftrags
-* @param int		$event		Der Auslöser (gestartet, gestoppt) für die Benachrichtigung
+* @param string		$at			UNIX-Timestamp des Sendedatums
+* @param string		$to			Empfängeradresse
+* @param string		$file		Dateinamen des Druckauftrags
+* @param string		$event		Der Auslöser (gestartet, gestoppt) für die Benachrichtigung
 *
 */
 function new_mail($mysqli, $print_id, $at, $to, $file, $event) {
 	if ($insert_stmt = $mysqli->prepare("INSERT INTO mails (`print_id`, `at`, `to`, `file`, `event`) VALUES (?, ?, ?, ?, ?)")) {
-		$insert_stmt->bind_param('iisss', $print_id, $at, $to, $file, $event);
+		$insert_stmt->bind_param('issss', $print_id, $at, $to, $file, $event);
 		
 		if (!$insert_stmt->execute()) {
 			header('Location: ../error.php?err=Druck Fehler: INSERT mails');
