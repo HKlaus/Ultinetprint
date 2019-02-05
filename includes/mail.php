@@ -30,7 +30,7 @@ function send_verify($email, $hash) {
 	
 	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');		// Setze Absender auf "noreply"
 	$mail->addAddress($email, '');												// Setze Empfänger
-	$mail->Subject = 'Ultimaker Account Aktivierung';							// Setze Betreff
+	$mail->Subject = 'Ultinetprint Account Aktivierung';							// Setze Betreff
 	
 	$mail->Body = '
 	 
@@ -84,7 +84,7 @@ function send_notify($email, $print, $event) {
 	
 	$mail->setFrom('noreply@hs-furtwangen.de', 'Ultimaker Networkprint');
 	$mail->addAddress($email, '');
-	$mail->Subject = 'Ultimaker Benachrichtigung';
+	$mail->Subject = 'Ultinetprint Benachrichtigung';
 	$mail->Body = '
 	 
 	Der Druck ' . $print . $notify . '
