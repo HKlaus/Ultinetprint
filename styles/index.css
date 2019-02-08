@@ -4,6 +4,9 @@
 * 
 */
 
+#background {
+	border-radius: 0px 0px 8px 8px;
+}
 #email {
     width: 300px;
     padding: 15px;

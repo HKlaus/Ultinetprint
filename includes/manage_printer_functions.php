@@ -120,3 +120,5 @@ function is_printing($ulti) {		// Was ist der Drucker gerade am Drucken?
 		return false;
 	}
 }
+
+if (!empty($_GET)) return get_state($ulti);

@@ -27,5 +27,6 @@ li {
 }
 #register {
     background-color: #c8c8c8;
-	padding: 50px 120px;
+	padding: 50px 120px 100px 120px;
+	border-radius: 8px 8px 0px 0px;
 }

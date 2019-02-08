@@ -23,8 +23,6 @@ include_once 'includes/manage_db_functions.php';
 include_once 'includes/manage_printer_functions.php';
 include_once 'includes/manage_prints_functions.php';
 
-// Falls der Drucker gerade den Druck vorbereitet, soll die Seite regelmäßig neu geladen werden
-if (get_state($ulti) == "pre_print" or get_state($ulti) == "none") header("Refresh:60");
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,9 +34,11 @@ if (get_state($ulti) == "pre_print" or get_state($ulti) == "none") header("Refre
         <link rel="stylesheet" href="styles/loading.css" />
 		<script type="text/JavaScript" src="js/time.js"></script>
 		<script type="text/JavaScript" src="js/loading.js"></script>
+		<script type="text/JavaScript" src="js/printer_status.js"></script>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
     </head>
     <body>
+		<div id="content">
 		<?php include 'breadcrumbs/logged_in_as.php'; ?>
 		<?php include 'breadcrumbs/navigation.php'; ?>
 		
@@ -56,27 +56,27 @@ if (get_state($ulti) == "pre_print" or get_state($ulti) == "none") header("Refre
 				</div>
 				<div class='line'>
 					<div class='left_value'>Drucker Status</div>
-					<div class='right_value'><?php echo get_status($ulti); ?></div>
+					<div class='right_value' id='printer_status'><?php echo get_status($ulti); ?></div>
 				</div>
 				<div class='line'>
 					<div class='left_value'></div>
-					<div class='right_value'><?php echo get_printname($ulti); ?></div>
+					<div class='right_value' id='print_name'><?php echo get_printname($ulti); ?></div>
 				</div>
 				<div class='line'>
 					<div class='left_value'></div>
-					<div class='right_value'><?php echo format_state(get_state($ulti)); ?></div>
+					<div class='right_value' id='printer_state'><?php echo format_state(get_state($ulti)); ?></div>
 				</div>
 				<div class='line'>
 					<div class='left_value'></div>
 					<div class='right_value'></div>
 				</div>
 			</div>
-		</div>
 		
 		<!-- Für Lade-Anzeige -->
 		<div class="loading style-2" id="loading">Wird geladen...<div class="loading-wheel"></div></div>
 		
-		<?php include 'breadcrumbs/footer.php'; ?>
 		<?php include 'breadcrumbs/logout.php'; ?>
+		<?php include 'breadcrumbs/footer.php'; ?>
+		</div>
 	</body>
 </html>

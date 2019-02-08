@@ -26,6 +26,7 @@ include_once 'breadcrumbs/check_rights.php';
         <script type="text/JavaScript" src="js/cookie.js"></script> 
     </head>
     <body>
+		<div id="content">
         <?php																			// Handling der Weiterleitung mittels GET-Paramter
         if (isset($_GET['success'])) {
 			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Überprüfe dein Postfach auf den Aktivierungslink.</div>'; }
@@ -48,6 +49,8 @@ include_once 'breadcrumbs/check_rights.php';
 			include 'breadcrumbs/registrieren.php';
 		} else if ($logged == "angemeldet") header('Location: ../printer.php');			// Sofern Benutzer eingeloggt, leite direkt auf die Druckerseite weiter
 		?>
+		</div>
 		<div id='impressum'><a href='impressum.php'>Impressum</a>.</div>
+		
     </body>
 </html>

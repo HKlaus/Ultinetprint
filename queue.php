@@ -25,31 +25,33 @@ include_once 'breadcrumbs/check_rights.php';
         <link rel="stylesheet" href="styles/manage.css" />
     </head>
     <body>
-	<?php include 'breadcrumbs/logged_in_as.php'; ?>
-	<?php include 'breadcrumbs/navigation.php'; ?>
-	<div id="background">
-		<?php if ($next_print = get_next_print($mysqli)) echo "
-			<div class='line'>
-				<div class='left_value'>Nächster Druck</div>
-				<div class='right_value'> 
-					" . show_next_print($mysqli) . ", wäre bei sofortigem Start fertig um " . calculate_next_print_finish($mysqli) . "
+		<div id='content'>
+			<?php include 'breadcrumbs/logged_in_as.php'; ?>
+			<?php include 'breadcrumbs/navigation.php'; ?>
+			<div id="background">
+				<?php if ($next_print = get_next_print($mysqli)) echo "
+					<div class='line'>
+						<div class='left_value'>Nächster Druck</div>
+						<div class='right_value'> 
+							" . show_next_print($mysqli) . ", wäre bei sofortigem Start fertig um " . calculate_next_print_finish($mysqli) . "
+						</div>
+					</div>"; 
+				?>
+				<div class='line'>
+					<div class='left_value'></div>
+					<div class='right_value'></div>
 				</div>
-			</div>"; 
-		?>
-		<div class='line'>
-			<div class='left_value'></div>
-			<div class='right_value'></div>
+				<div id="prints">
+				<div class='line'>
+					<div class='left_value'>Kriterien für die Auswahl des nächsten Drucks</div>
+					<div class='right_value'>Zuerst gilt die höhere Priorität, danach Drucke die vor <br>17 Uhr fertig werden, ansonsten der längste Druck.</div>
+				</div>
+				<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_prints">
+					<?php show_prints($mysqli);?>
+				</form>
+				</div>
+			&nbsp;</div>
+			<?php include 'breadcrumbs/logout.php'; ?>
 		</div>
-		<div id="prints">
-		<div class='line'>
-			<div class='left_value'>Kriterien für die Auswahl des nächsten Drucks</div>
-			<div class='right_value'>Zuerst gilt die höhere Priorität, danach Drucke die vor <br>17 Uhr fertig werden, ansonsten der längste Druck.</div>
-		</div>
-		<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_prints">
-			<?php show_prints($mysqli);?>
-		</form>
-		</div>
-	&nbsp;</div>
-	<?php include 'breadcrumbs/logout.php'; ?>
 	</body>
 </html>

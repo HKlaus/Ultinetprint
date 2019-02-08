@@ -24,15 +24,17 @@ include_once 'breadcrumbs/check_rights.php';
         <link rel="stylesheet" href="styles/manage.css" />
     </head>
     <body>
-	<?php include 'breadcrumbs/logged_in_as.php'; ?>
-	<?php include 'breadcrumbs/navigation.php'; ?>
-	<div id="background">
-		<div id="users">
-		<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_users">
-			<?php show_users($mysqli);?>
-		</form>
+		<div id='content'>
+			<?php include 'breadcrumbs/logged_in_as.php'; ?>
+			<?php include 'breadcrumbs/navigation.php'; ?>
+			<div id="background">
+				<div id="users">
+				<form action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>"  method="post"  name="manage_users">
+					<?php show_users($mysqli);?>
+				</form>
+				</div>
+			&nbsp;</div>
+			<?php include 'breadcrumbs/logout.php'; ?>
 		</div>
-	&nbsp;</div>
-	<?php include 'breadcrumbs/logout.php'; ?>
 	</body>
 </html>
