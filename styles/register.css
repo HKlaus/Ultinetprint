@@ -13,6 +13,14 @@ li {
 	list-style: url(../images/listpoint.png);
 }
 
+.error {
+    font-weight: 800;
+    border: 3px solid #03b670;
+    text-align: center;
+    padding: 30px;
+    border-radius: 7px;
+}
+
 #email {
     width: 98%;
 	text-align: center;

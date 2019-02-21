@@ -48,19 +48,6 @@ class Ultimaker3 {
 	function get_user() { return $this->user; }
 	
 	
-	/**
-	* Funktion, die aufgerufen wird wenn kein ID/Key-Paar in der Datenbank gespeichert sein sollte
-	* 
-	* @return json	
-	*/
-	function req_auth() {
-		$path = "/auth/request";
-		$data = "application=" . $this->app . "&user=" . $this->appuser;
-		$json = post($this, $path, $data);		
-		$this->id = json_decode($json)->{'id'};
-		$this->key = json_decode($json)->{'key'};
-		return $json;
-	}
 	
 	/**
 	* Funktionen, die die HTTP-Anfragen an den Drucker senden

@@ -108,7 +108,7 @@ function login($email, $password, $mysqli) {
 }
 
 /**
-* Überprüft ob ein Konto 5 oder mehr erfolglose Login-Versuche in den letzten 2 Stunden hat
+* Überprüft ob ein Konto 5 oder mehr erfolglose Login-Versuche in den letzten 2 Minuten hat
 * 
 * @author https://de.wikihow.com/Ein-sicheres-Login-Skript-mit-PHP-und-MySQL-erstellen
 *
@@ -123,8 +123,8 @@ function checkbrute($user_id, $mysqli) {
     // Hole den aktuellen Zeitstempel
     $now = time();
 
-    // Alle Login-Versuche der letzten zwei Stunden werden gezählt.
-    $valid_attempts = $now - (2 * 60 * 60);
+    // Alle Login-Versuche der letzten zwei Minuten werden gezählt.
+    $valid_attempts = $now - (2 * 60 );
 
     if ($stmt = $mysqli->prepare("SELECT time FROM login_attempts WHERE user_id = ? AND time > '$valid_attempts'")) {
         $stmt->bind_param('i', $user_id);
@@ -329,6 +329,24 @@ function req_auth($mysqli) {
 	} else {
 		return false;
 	}
+}
+
+
+/**
+* Funktion, die aufgerufen wird wenn kein ID/Key-Paar in der Datenbank gespeichert sein sollte
+* 
+* @return json	
+*/
+function require_auth($ulti, $app, $appuser) {
+	$path = "/auth/request";
+	$data = "application=" . $app . "&user=" . $appuser;
+	
+	$json = post($ulti, $path, $data);
+
+print_r($json);	
+	$id = json_decode($json)->{'id'};
+	$key = json_decode($json)->{'key'};
+	return array ( $id, $key );
 }
 
 /**

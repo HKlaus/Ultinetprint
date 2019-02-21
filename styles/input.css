@@ -99,7 +99,7 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 8.4px;
   cursor: pointer;
   background: #03b670;
-  border-radius: 1.3px;
+  border-radius: 13px;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
@@ -111,7 +111,7 @@ input[type=range]::-moz-range-track {
   height: 8.4px;
   cursor: pointer;
   background: #03b670;
-  border-radius: 1.3px;
+  border-radius: 13px;
 }
 
 input[type=range]::-ms-track {

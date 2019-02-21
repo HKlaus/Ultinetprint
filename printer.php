@@ -45,7 +45,7 @@ include_once 'includes/manage_prints_functions.php';
 		<div id="background">
 				<div class='line'>
 					<div class='left_value'>Drucker</div>
-					<div class='right_value'><b><?php echo get_name($ulti); ?></b></div>
+					<div class='right_value'><b><?php echo get_name($ulti); ?></b>&nbsp;</div>
 				</div>
 				<div class='line'>
 					<div class='left_value'><?php echo get_printhead($ulti); ?></div>
@@ -56,7 +56,7 @@ include_once 'includes/manage_prints_functions.php';
 				</div>
 				<div class='line'>
 					<div class='left_value'>Drucker Status</div>
-					<div class='right_value' id='printer_status'><?php echo get_status($ulti); ?></div>
+					<div class='right_value' id='printer_status'><?php echo get_status($ulti); ?>&nbsp;</div>
 				</div>
 				<div class='line'>
 					<div class='left_value'></div>

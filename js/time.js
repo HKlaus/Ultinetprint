@@ -5,7 +5,9 @@
 *
 * @modified	yes
 */	
-
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 function timer(time) {
 	var countDownDate = new Date(time).getTime();
 	var x = setInterval( async function() {
@@ -43,7 +45,6 @@ function timer(time) {
 		  if (distance < 0) {
 			clearInterval(x);
 			document.getElementById("timer").innerHTML = "Dauer: -";
-			window.location.reload(true); 
 		  }
-	}, 250);
+	}, 1000);
 }

@@ -13,6 +13,8 @@
 echo "<label id='switch'>";
 if (get_status($ulti) == 'im Leerlauf') {						// Falls der Drucker gearde im Leerlauf sein sollte, zeige Kamera aus Vogelperspektive
 	echo "<img id='webcam_image' src='http://141.28.73.21/webcam/?action=stream' width='640' height='480'>";
+} elseif (get_status($ulti) == '') {						// Falls der Drucker gearde offline sein sollte, zeige Kamera aus Vogelperspektive
+	echo "<img id='webcam_image' src='http://141.28.73.21/webcam/?action=stream' width='640' height='480'>";
 } else {														// Ansonsten zeige Drucker-interne Kamera
 	echo "<img id='webcam_image' src='" .  str_to_str($ulti->get("camera/feed")) . "' width='640' height='480'>";
 }

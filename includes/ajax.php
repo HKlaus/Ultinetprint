@@ -38,13 +38,14 @@ $status = str_to_str(get("printer/status"));			// Hole Drucker-Status
 $state  = str_to_str(get("print_job/state"));			// Hole Drucker-State
 	
 if ($data == "status") {		// Wenn der AJAX Request den Status abfragt
+	
 	$print_time = str_to_str(get("print_job/time_total"));
 	$time_elapsed = str_to_str(get("print_job/time_elapsed"));
-
+	
 	if ($status == "idle") echo "im Leerlauf";
 	else if ($status == "printing") {
 		if ($state == "printing") {
-			echo "<div id='timer'><script> timer('" . date("M j, Y H:i:s", $print_time - $time_elapsed + time()) . "'); </script></div>";
+			echo "<div id='timer'>&nbsp;<script> timer('" . date("M j, Y H:i:s", $print_time - $time_elapsed + time()) . "'); </script></div>";
 		}  else echo "Warte..";
 	}
 	else if ($status == "maintainance") echo "im Wartungsmodus";

@@ -20,8 +20,8 @@ function get($ulti, $path) {
     curl_setopt_array($curls, array(			// Setze die CURL Variablen
         CURLOPT_URL => "http://" . $ulti->get_ip() . "/api/v1/" . $path,		// Setze den API-Endpunkt
         CURLOPT_RETURNTRANSFER => true,				// TRUE um den Transfer als String zurückzuliefern, anstatt ihn direkt auszugeben. 
-        CURLOPT_TIMEOUT => 15,			// Die maximale Ausführungszeit in Sekunden für cURL-Funktionen. 
-        CURLOPT_CONNECTTIMEOUT => 15,			// Die Anzahl Sekunden, die der Verbindungsaufbau maximal dauern darf
+        CURLOPT_TIMEOUT => 10,			// Die maximale Ausführungszeit in Sekunden für cURL-Funktionen. 
+        CURLOPT_CONNECTTIMEOUT => 10,			// Die Anzahl Sekunden, die der Verbindungsaufbau maximal dauern darf
 		CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,		// Aktiviert die HTTP-Diggest Authentification
         CURLOPT_HEADER => false			// Ob der Header der Rückgabe mit ausgegeben werden soll
     ));
@@ -51,8 +51,8 @@ function post($ulti, $path, $data) {
         CURLOPT_CUSTOMREQUEST => "POST",			// Setze den Anfragen-Typ auf "POST"
         CURLOPT_POSTFIELDS => $data,				// Setze die zu übertragenden Daten 
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 25,
-        CURLOPT_CONNECTTIMEOUT => 25,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
 		CURLOPT_HTTPHEADER => array(                // Setze den HTTP-Header um den Content-Type "json" anzugeben                                                  
 			'Content-Type: application/json',                                                                                
@@ -85,8 +85,8 @@ function put($ulti, $path, $data) {
         CURLOPT_CUSTOMREQUEST => "PUT",
         CURLOPT_POSTFIELDS => $data,
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 15,
-        CURLOPT_CONNECTTIMEOUT => 15,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 10,
         CURLOPT_HTTPAUTH => CURLAUTH_DIGEST,
 		CURLOPT_HTTPHEADER => array(                                                                          
 			'Content-Type: application/json',                                                                                

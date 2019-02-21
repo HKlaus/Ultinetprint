@@ -281,6 +281,30 @@ function change_user_active($mysqli, $user_id) {
 //
 
 /**
+* Funktion die prüft ob man Besitzer einer Datei ist
+*
+* @param mysqli		$mysqli 	Die zu verwendende Datenbankverbindung für die MYSQL Abfragen
+* @param int		$user_id	Die eindeutige Benutzer-ID des Besitzers
+* @param string		$file_name	Der Dateiname der Datei
+*
+*/
+function is_file_owner($mysqli, $user_id, $file_name) {
+	if ($stmt = $mysqli->prepare("SELECT user_id FROM available_prints WHERE file_name = ?")) {			// Hole alte ID des 3D-Modells
+        $stmt->bind_param('s', $file_name);
+		$stmt->execute();   
+        $stmt->store_result();
+		if ($stmt->num_rows == 1) {
+			$stmt->bind_result($old_user);	
+			$stmt->fetch();
+			$stmt->close();	
+			if ($old_user == $user_id) {			// Vergleiche Dateibesitzer mit der übergebenen User-ID
+				return true;
+			} else return false;
+		} else return true;
+	}
+}
+
+/**
 * Funktion zum Einfügen einer Datei zu den "druckbaren" Dateien
 *
 * @param mysqli		$mysqli 	Die zu verwendende Datenbankverbindung für die MYSQL Abfragen

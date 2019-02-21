@@ -26,18 +26,18 @@ include_once 'breadcrumbs/check_rights.php';
         <script type="text/JavaScript" src="js/cookie.js"></script> 
     </head>
     <body>
-		<div id="content">
         <?php																			// Handling der Weiterleitung mittels GET-Paramter
         if (isset($_GET['success'])) {
 			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Überprüfe dein Postfach auf den Aktivierungslink.</div>'; }
 		}
         if (isset($_GET['error'])) {
-			if ($_GET['error'] == 1) { echo '<div id="response">Fehler beim einloggen: maximale Anzahl an Login Versuche (5)</div>'; }
-			elseif ($_GET['error'] == 2) { echo '<div id="response">Fehler beim einloggen: Passwort inkorrekt!</div>'; }
-			elseif ($_GET['error'] == 3) { echo '<div id="response">Fehler beim einloggen: Unbekannte Email-Adresse!</div>'; }
-			elseif ($_GET['error'] == 4) { echo '<div id="response">Fehler beim einloggen: Account nicht aktiviert!</div>'; }
-			else { echo '<div id="response">Unbekannter Fehler beim einloggen!</div>'; }
+			if ($_GET['error'] == 1) { echo '<div id="response">Fehler beim Einloggen: maximale Anzahl (5) an Login Versuchen (2 Minuten blockiert)</div>'; }
+			elseif ($_GET['error'] == 2) { echo '<div id="response">Fehler beim Einloggen: Passwort inkorrekt!</div>'; }
+			elseif ($_GET['error'] == 3) { echo '<div id="response">Fehler beim Einloggen: Unbekannte Email-Adresse!</div>'; }
+			elseif ($_GET['error'] == 4) { echo '<div id="response">Fehler beim Einloggen: Account nicht aktiviert!</div>'; }
+			else { echo '<div id="response">Unbekannter Fehler beim Einloggen!</div>'; }
         } ?> 
+		<div id="content">
 		<?php include 'breadcrumbs/logged_in_as.php'; 
 		if ($logged == "abgemeldet") { 													// Sofern Benutzer nicht eingeloggt ist, gib ihm die Möglichkeit
 			echo "	<div id='background'>
