@@ -25,8 +25,7 @@ function show_users($mysqli) {
 	</div><div class='inline' id='level'><b>Betreuer?</b>
 	</div><div class='inline' id='user_action'><b>Druckrechte</b>
 	</div></div>";
-    if ($stmt = $mysqli->query("SELECT id, email, level, active, rights FROM users ORDER BY id DESC")) {
-        
+    if ($stmt = $mysqli->query("SELECT id, email, level, active, rights FROM users ORDER BY id DESC")) { 
         while ($row = $stmt->fetch_row()){
 			$level_img = "<img src='images/rang_hoch.png' alt='Nein' title='Zum Betreuer befördern'>";		// Bild wechles angezeigt wird um Benutzer zum Betreuer zu befördern
 			$rights_img = "<img src='images/löschen.png' alt='Nein' title='Druck Rechte erteilen'>";		// Bild wechles angezeigt wird um Benutzer Druck-Rechte zu erteilen
@@ -150,6 +149,22 @@ function show_prints($mysqli) {
 	}
 }
 
+/**
+* Gibt die Liste mit den registrierten Benutzern zurück
+*
+* @param mysqli		$mysqli 	Die zu verwendende Datenbankverbindung für die MYSQL Abfragen
+*
+*/
+function get_admins($mysqli) {
+    if ($stmt = $mysqli->query("SELECT email FROM users WHERE level >= 1 ORDER BY id DESC")) { 
+        while ($row = $stmt->fetch_row()){
+			$admins .= $row[0] . "\n";
+		}
+	}
+	$stmt->close();
+	return $admins;
+}
+
 //
 //	Funktionen zur Änderung der Datenbank
 //
@@ -161,41 +176,29 @@ function show_prints($mysqli) {
 * @param int		$user_id	Die eindeutige Benutzer-ID des Benutzers bei dem die Druckrechte geändert werden sollen
 *
 */
-function change_rights($mysqli, $user_id) {		
-	if ($stmt = $mysqli->prepare("SELECT level FROM users WHERE id = ? LIMIT 1")) {
-        $stmt->bind_param('i', $user_id);
+function change_rights($mysqli, $user_id) {
+	if ($stmt = $mysqli->prepare("SELECT rights FROM users WHERE id = ? LIMIT 1")) {
+		$stmt->bind_param('i', $user_id);
 		$stmt->execute();   
-        $stmt->store_result();
-		
+		$stmt->store_result();
 		if ($stmt->num_rows == 1) {
-			$stmt->bind_result($user_level);
-			$stmt->fetch();
-			if ($user_level < 1) {																		// Wenn Benutzer kein Betreuer ist, ändere Druckrechte
-				if ($stmt = $mysqli->prepare("SELECT rights FROM users WHERE id = ? LIMIT 1")) {
-					$stmt->bind_param('i', $user_id);
-					$stmt->execute();   
-					$stmt->store_result();
-					if ($stmt->num_rows == 1) {
-						$stmt->bind_result($old_user_rights);
-						$stmt->fetch(); 
-						$new_user_rights = 0;															// Wenn Benutzer Druckrechte hatte dann setze Rechte 0
-						if ($old_user_rights == 0) { $new_user_rights = 1; } 							// Ansonsten setze Rechte auf 1
-						if ($stmt = $mysqli->prepare("UPDATE users SET rights = ? WHERE id = ?")) {
-							$stmt->bind_param('ii', $new_user_rights, $user_id);
-							
-							if (!$stmt->execute()) {
-								header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Rechte');	// Falls dabei ein Fehler passiert, gebe dies aus
-							}
-						db_history($mysqli, "changed user rights", $user_id);							// trage in DB History Tabelle ein
-						}
-					}
-					if ($new_user_rights == 1) {														// Gebe Status der Änderung aus
-						echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte erteilt.</div>";
-					} else {
-						echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte entzogen.</div>";
-					}
+			$stmt->bind_result($old_user_rights);
+			$stmt->fetch(); 
+			$new_user_rights = 0;															// Wenn Benutzer Druckrechte hatte dann setze Rechte 0
+			if ($old_user_rights == 0) { $new_user_rights = 1; } 							// Ansonsten setze Rechte auf 1
+			if ($stmt = $mysqli->prepare("UPDATE users SET rights = ? WHERE id = ?")) {
+				$stmt->bind_param('ii', $new_user_rights, $user_id);
+				
+				if (!$stmt->execute()) {
+					header('Location: ../error.php?err=Verwaltungs Fehler: UPDATE Rechte');	// Falls dabei ein Fehler passiert, gebe dies aus
 				}
-			} else echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " können keine Druckrechte entzogen werden, da er ein Betreuer ist.</div>";
+			db_history($mysqli, "changed user rights", $user_id);							// trage in DB History Tabelle ein
+			}
+		}
+		if ($new_user_rights == 1) {														// Gebe Status der Änderung aus
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte erteilt.</div>";
+		} else {
+			echo "<div id='response'>Dem Benutzer Nr. " . $user_id . " Druckrechte entzogen.</div>";
 		}
 		$stmt->close();
 	}

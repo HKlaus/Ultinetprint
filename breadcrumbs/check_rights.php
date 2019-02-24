@@ -25,5 +25,8 @@ if (admin_check($mysqli) > 0) {										// Wenn Benutzer Betreuer-Rechte hat se
 	$admin = 'angemeldet';
 } else {
 	$admin = 'abgemeldet';
+	if (preg_match('/users\.php/', $_SERVER['REQUEST_URI'])) {		// Wenn Benutzer kein Betreuer ist, aber versucht auf der die Benutzerverwaltung zuzugreifen, leite ihn zur Index-Seite
+		header('Location: ../index.php');
+	}
 }
 $printrighted = printrights_check($mysqli);							// Wenn Benutzer Druck-Rechte hat setzte Variable

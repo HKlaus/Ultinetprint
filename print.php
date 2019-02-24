@@ -54,7 +54,7 @@ include_once 'includes/manage_prints_functions.php';
 					</div>
 					<div class='line'>
 						<div class='left_value'>Du besitzt leider keine Rechte um eigene Drucke in Auftrag zu geben. <img src='images/achtung.png' id='img' /></div>
-						<div class='right_value'>Lasse dich von einem Betreuer freischalten!</div>
+						<div class='right_value'>Lasse dich von einem <a href='#' title='" . get_admins($mysqli) . "'>Betreuer</a> freischalten!</div>
 					</div>"; 
 			?>
 				<div id="prints">
