@@ -51,7 +51,8 @@ function get_status($ulti) {
 			return "<div id='timer'><script> timer('" . date("M j, Y H:i:s", $print_time - $time_elapsed + time()) . "'); </script></div>";
 		}  else return "Warte..";
 	}
-	else if ($status == "maintainance") return "im Wartungsmodus";
+	else if ($status == "error") return "Gerätefehler, warte auf manuelle/lokale Eingabe";
+	else if ($status == "maintenance") return "im Wartungsmodus";
 	else return $status;
 }
 
