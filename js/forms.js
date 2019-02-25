@@ -87,3 +87,16 @@ function regformhash(form, email, password, conf) {
     form.submit();
     return true;
 }
+
+/**
+* Überprüft ob im Eingabefeld des Passworts "Enter gedrückt wird und löst dann ein onClick-Event aus
+* 
+* @author Tom Lehmann
+*/
+var input = document.getElementById("password");		// Hole das Passwort-Feld
+
+input.addEventListener("keyup", function(event) {		// Registriere einen Event-Listener auf diesem Feld
+  if (event.keyCode === 13) {							// keyCode 13 entspricht dem Enter
+    document.getElementById("login_button").click();	// Triggere das onClick-Event auf dem Login-Button
+  }
+});

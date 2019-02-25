@@ -6,6 +6,6 @@
 * 
 */
 define("HOST", "localhost");     					// Der Host
-define("USER", "USERNAME");	    					// Der Datenbank-Benutzername
-define("PASSWORD", "DB PASSWORD");  			  	// Das Datenbank-Passwort
-define("DATABASE", "DB NAME");	 			 				// Der Datenbankname
+define("USER", "validator");	    					// Der Datenbank-Benutzername
+define("PASSWORD", "validator hfu thesis .23");  			  	// Das Datenbank-Passwort
+define("DATABASE", "ultinetprint");	 			 				// Der Datenbankname
