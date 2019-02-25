@@ -44,7 +44,7 @@ include_once 'breadcrumbs/check_rights.php';
 					<form action='includes/process_login.php' method='post' name='login_form' id='login_form'>                      
 						<input type='text' name='email' id='email' placeholder='Benutzer' />
 						<br><input type='password' name='password' id='password' placeholder='Passwort' />
-						<input type='button' value='Login' onclick='formhash(this.form, this.form.password); setCookie(this.form.email.value);' /> 
+						<input type='button' id='login_button' value='Login' onclick='formhash(this.form, this.form.password); setCookie(this.form.email.value);' /> 
 					</form>";
 			include 'breadcrumbs/registrieren.php';
 		} else if ($logged == "angemeldet") header('Location: ../printer.php');			// Sofern Benutzer eingeloggt, leite direkt auf die Druckerseite weiter
@@ -52,5 +52,17 @@ include_once 'breadcrumbs/check_rights.php';
 		</div>
 		<div id='impressum'><a href='impressum.php'>Impressum</a>.</div>
 		
-    </body>
+    </body><script>// Get the input field
+var input = document.getElementById("password");
+
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("login_button").click();
+  }
+}); </script>
 </html>
