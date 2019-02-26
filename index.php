@@ -25,7 +25,7 @@ include_once 'breadcrumbs/check_rights.php';
         <script type="text/JavaScript" src="js/forms.js"></script> 
         <script type="text/JavaScript" src="js/cookie.js"></script> 
     </head>
-    <body>
+    <body onLoad="addEnterListener();">													<!-- Registriere Enter-Eventhanlder aus forms.js -->
         <?php																			// Handling der Weiterleitung mittels GET-Paramter
         if (isset($_GET['success'])) {
 			if ($_GET['success'] == 1) { echo '<div id="response">Registrierung erfolgreich! Überprüfe dein Postfach auf den Aktivierungslink.</div>'; }
